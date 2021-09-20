@@ -43,6 +43,7 @@
 
         <activity
             android:name="com.falcon.restaurants.screens.meal.MealsActivity"
+            android:label="@string/title_meals_activity"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 

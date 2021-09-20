@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">Restaurant</string>
+    <string name="app_name">Restaurants</string>
+    <string name="title_meals_activity">Meals</string>
     <string name="title_meal_details_activity">Meal Details</string>
 </resources>

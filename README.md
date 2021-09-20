@@ -9,17 +9,15 @@ can fetch what was updated recently on server
 # Screenshots:
 
 <br />
-
-Resturants list            |  Meals list
-:-------------------------:|:-------------------------:
-![](screenshots/restaurants.png)  |  ![](screenshots/meals.png)
-
+<p float="left">
+  <img src="screenshots/restaurants.png" width="45%" />
+  <img src="screenshots/meals.png" width="45%" /> 
+</p>
 <br />
-
-Meals Search               |  Meal Details
-:-------------------------:|:-------------------------:
-![](screenshots/meals-search.png)  |  ![](screenshots/meal-details.png)
-
+<p float="left">
+  <img src="screenshots/meals-search.png" width="45%" />
+  <img src="screenshots/meal-details.png" width="45%" /> 
+</p>
 <br />
 
 # Tech Stack

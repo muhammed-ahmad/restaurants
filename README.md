@@ -1,8 +1,8 @@
 # Restaurants
 Restaurants app displays a list of resturants and meals
-it uses a self made api to get and cache data
-can filter meals and resturants
-can fetch what was updated recently on server
+- it uses a backend api to get data and cache it locally using room.
+- it allow filtering the current meals and resturants list.
+- each restart it connect to the backend and gets what was updated recently.
 
 <br />
 
@@ -47,8 +47,7 @@ can fetch what was updated recently on server
     - REST APIs / JSON
     
 - Architecture
-    - MVVM Architecture (ViewModel - LiveData)
-    - Use Cases
+    - MVVM Architecture (ViewModel - UseCases - Model)
     - No Repository pattern
     
 - SOLID

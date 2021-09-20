@@ -6,7 +6,7 @@ can fetch what was updated recently on server
 
 <br />
 
-# screenshots:
+# Screenshots:
 
 <br />
 

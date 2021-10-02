@@ -22,7 +22,8 @@ Restaurants app displays a list of resturants and meals
 
 # Tech Stack
 
-- Java
+- Kotlin (main branch), Java (java branch)
+
 - Reactive Programming
     - RXjava
     - LiveData

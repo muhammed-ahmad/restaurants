@@ -5,6 +5,7 @@ import com.falcon.restaurants.network.restaurant.FetchRestaurantsEndPoint
 import com.falcon.restaurants.network.restaurant.RestaurantNet
 import com.falcon.restaurants.room.restaurant.Restaurant
 import com.falcon.restaurants.room.restaurant.RestaurantDao
+import com.falcon.restaurants.utils.Logger
 import javax.inject.Inject
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
@@ -27,9 +28,10 @@ class FetchRestaurantsUseCase @Inject constructor(val restaurantDao: RestaurantD
             override fun subscribe(@NonNull emitter: ObservableEmitter<String>) {
 
                 val maxUpdatedAt: String = restaurantDao.getMaxUpdated()
+                //Logger.log(TAG, maxUpdatedAt)
 
                 // this is for test
-                //val maxUpdatedAt: String = "1970-01-01 00:00:01" 
+                //val maxUpdatedAt: String = "1970-01-01 00:00:01"
                 //////
 
                 fetchRestaurantsEndPoint.fetch(maxUpdatedAt, object: FetchRestaurantsEndPoint.Listener {

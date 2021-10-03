@@ -8,7 +8,7 @@ import io.reactivex.SingleObserver
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class FetchRestaurantsEndPoint @Inject constructor(val retrofitInterface: RetrofitInterface){
+open class FetchRestaurantsEndPoint @Inject constructor(val retrofitInterface: RetrofitInterface){
 
     val TAG: String = "FetchRestaurantEndPoint"
 
@@ -17,7 +17,7 @@ class FetchRestaurantsEndPoint @Inject constructor(val retrofitInterface: Retrof
         fun onFetchFailed(e: Throwable)
     }
 
-    fun fetch(maxUpdatedAt: String, listener: Listener) {
+    open fun fetch(maxUpdatedAt: String, listener: Listener) {
 
         val single: Single<List<RestaurantNet>> = retrofitInterface.getRestaurants(maxUpdatedAt)
         var singleObserver: SingleObserver<List<RestaurantNet>> = object : SingleObserver<List<RestaurantNet>> {

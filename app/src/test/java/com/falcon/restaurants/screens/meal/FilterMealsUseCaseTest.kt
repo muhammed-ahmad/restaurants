@@ -12,8 +12,7 @@ import org.junit.Assert.*
 
 class FilterMealsUseCaseTest {
 
-    lateinit var SUT: FilterMealsUseCase 
-
+    lateinit var SUT: FilterMealsUseCase
     val MAIN_MEALS: MutableList<Meal> = MealsTestData.getMainMeals()
 
     @Before
@@ -25,10 +24,8 @@ class FilterMealsUseCaseTest {
     // filter with empty list then return empty list
     @Test
     fun filter_emptyList_returnEmptyList() {
-        // arrange
-        val emptyMeals: MutableList<Meal> = ArrayList()
-        SUT = FilterMealsUseCase()
-        SUT.setList(emptyMeals)
+        // arrange with empty list
+        SUT.setList(ArrayList())
         // act
         val filteredMeals: MutableList<Meal> = SUT.filter("")
         // assert
@@ -60,6 +57,18 @@ class FilterMealsUseCaseTest {
         assertThat(filteredMeals, Matchers.containsInAnyOrder(
                 hasProperty("name", `is`("name2"))
         ))
+        assertEquals(1, filteredMeals.size)
+
+        // act2 (call with non empty keyword)
+        filteredMeals = SUT.filter("name")
+
+        // assert1
+        assertThat(filteredMeals, Matchers.containsInAnyOrder(
+            hasProperty("name", `is`("name1")),
+            hasProperty("name", `is`("name3")),
+            hasProperty("name", `is`("name2"))
+        ))
+        assertEquals(3, filteredMeals.size)
 
         // act2 (call with empty keyword)
         filteredMeals = SUT.filter("")
@@ -70,12 +79,15 @@ class FilterMealsUseCaseTest {
                 hasProperty("name", `is`("name3")),
                 hasProperty("name", `is`("name2"))
         ))
+
+        assertEquals(3, filteredMeals.size)
+
     }
 
 
-    // filter with non empty list then with a non found keyword then return empty list
+    // filter with non empty list with a non found keyword then return empty list
     @Test
-    fun filter_nonEmptyListAndWithNonFoundQuery_returnEmptyList() {
+    fun filter_nonEmptyListWithNonFoundQuery_returnEmptyList() {
         // act
         val filteredMeals: MutableList<Meal> = SUT.filter("0000")
         // assert

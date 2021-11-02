@@ -6,16 +6,11 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.falcon.restaurants.room.RoomDB
-import com.falcon.restaurants.testdata.RestaurantTestDataInstru
-import com.falcon.restaurants.utils.Logger
-import org.junit.AfterClass
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Rule
-import org.junit.Test
+import com.falcon.restaurants.testdata.RestaurantTestDataInstrument
 import org.junit.runner.RunWith
 import io.reactivex.observers.TestObserver
 import org.hamcrest.CoreMatchers.equalTo
+import org.junit.*
 import org.junit.Assert.*
 import org.mockito.Mockito
 import org.mockito.kotlin.never
@@ -27,18 +22,14 @@ class RestaurantDaoTest {
 
     companion object {
         const val TAG: String = "RestaurantDaoTest"
-        val RESTAURANTS: List<Restaurant> = RestaurantTestDataInstru.createRestaurantsForRoom() as List<Restaurant>
+        val RESTAURANTS: List<Restaurant> = RestaurantTestDataInstrument.createRestaurants() as List<Restaurant>
         lateinit var SUT: RestaurantDao
         lateinit var db: RoomDB
 
         @BeforeClass @JvmStatic
         fun setUp() {
             val context: Context = ApplicationProvider.getApplicationContext()
-            db = Room.inMemoryDatabaseBuilder(
-                context,
-                RoomDB::class.java).allowMainThreadQueries().build()
-            SUT = db.restaurantDao()
-            SUT.upsert(RESTAURANTS)
+            db = Room.inMemoryDatabaseBuilder( context, RoomDB::class.java).allowMainThreadQueries().build()
         }
 
         @AfterClass @JvmStatic
@@ -51,78 +42,96 @@ class RestaurantDaoTest {
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Before
-    fun buildSpy() {
+    fun setUpForEachMethod() {
         SUT = Mockito.spy(db.restaurantDao())
+        db.clearAllTables()
+        SUT.upsert(RESTAURANTS)
+        Mockito.reset(SUT)
     }
 
     @Test
-    fun upsert() {
-    }
-
-    @Test
-    fun getAll() {
-
+    fun getByParentId_nonEmptyList_returnNonEmptyListHavingTheSameParentId() {
+        // arrange
+        // act
         val testObserver: TestObserver<List<Restaurant>> = SUT.getByParentId("0").test()
-        testObserver.assertValue({Restaurants -> Restaurants.size == 3})
-        testObserver.assertValue {Restaurants -> Restaurants.get(0).id.equals("id1")}
+        // assert
+        testObserver.assertValue { restaurants -> restaurants.size == 3 }
+        testObserver.assertValue { restaurants -> restaurants[0].id.equals("id1") }
         testObserver.assertValueCount(1)
+    }
 
+    @Test
+    fun getByParentId_nonEmptyListThenInsert_returnNonEmptyListHavingTheSameParentId() {
+        // arrange
+        // act
+        val testObserver: TestObserver<List<Restaurant>> = SUT.getByParentId("0").test()
         SUT.insert(Restaurant("id6", "0", "name6",  "image_url",
-                "1", "1970-01-01 00:00:03"))
+            "1", "1970-01-01 00:00:03"))
         SUT.insert(Restaurant("id7", "0", "name7",  "image_url",
-                "1", "1970-01-01 00:00:03"))
+            "1", "1970-01-01 00:00:03"))
 
+        // assert
         testObserver.assertValueCount(3)
 
-        val values: List<List<Restaurant>> = testObserver.values()
-        Logger.log( TAG,"getAll: " + values.get(values.size-1).size) // get the size of the last one
-
-        testObserver.assertValueAt(0, {Restaurants -> Restaurants.size == 3})
-        testObserver.assertValueAt(1, {Restaurants -> Restaurants.size == 4})
-        testObserver.assertValueAt(2, {Restaurants -> Restaurants.size == 5})
-
+        //val values: List<List<Restaurant>> = testObserver.values()
+        //Logger.log( TAG,"getAll: " + values[values.size-1].size) // get the size of the last one
+        testObserver.assertValueAt(0) { restaurants -> restaurants.size == 3 }
+        testObserver.assertValueAt(1) { restaurants -> restaurants.size == 4 }
+        testObserver.assertValueAt(2) { restaurants -> restaurants.size == 5 }
     }
 
     @Test
-    fun getMaxUpdatedAt() {
+    fun getMaxUpdatedAt_nonEmptyList_returnTheMaxOfUpdatedAt() {
+        // arrange
+        // act
         val maxUpdatedAt: String = SUT.getMaxUpdated()
+        //println(SUT.getByParentId("0").blockingFirst().size)
+        // assert
         assertThat(maxUpdatedAt, equalTo("1970-01-01 00:00:05"))
     }
 
     @Test
-    fun checkExists() {
-        val isExists: Boolean =  SUT.checkExists(RESTAURANTS.get(0))
+    fun checkExists_existingRestaurant_returnTrue() {
+        // arrange
+        // act
+        val isExists: Boolean =  SUT.checkExists(RESTAURANTS[0])
+        // assert
         assertTrue(isExists)
     }
 
     @Test
-    fun CheckNotExists() {
-        val restaurant: Restaurant = Restaurant("id5", "0", "name5",
+    fun checkExists_nonExistingRestaurant_returnFalse() {
+        // arrange
+        val restaurant = Restaurant("id5", "0", "name5",
                 "image_url", "1", "1970-01-01 00:00:03")
+        // act
         val isExists: Boolean =  SUT.checkExists(restaurant)
+        // assert
         assertFalse(isExists)
     }
 
     @Test
-    fun CheckUpsertWithInsert() {
-        val restaurant: Restaurant = Restaurant("id8", "0", "name8",
+    fun upsert_nonExistingRestaurant_insertIsCalledAndUpdateNotCalled() {
+        // arrange
+        val restaurant = Restaurant("id8", "0", "name8",
                 "image_url", "1", "1970-01-01 00:00:03")
+        // act
         SUT.upsert(restaurant)
+        // assert
         verify(SUT).insert(restaurant)
         verify(SUT, never()).update(any<Restaurant>())
     }
 
     @Test
-    fun CheckUpsertWithUpdate() {
-        //Mockito.reset(SUT)
-        val restaurant: Restaurant = Restaurant("id3", "0", "name3",
+    fun upsert_existingRestaurant_updateIsCalledAndInsertNotCalled() {
+        // arrange
+        val restaurant = Restaurant("id3", "0", "name3",
                 "image_url", "1", "1970-01-01 00:00:03")
+        // act
         SUT.upsert(restaurant)
-
+        // assert
         verify(SUT).update(restaurant)
-        //verify(SUT).insert(restaurant)
         verify(SUT, never()).insert(any<Restaurant>())
-        //verify(SUT).insert(any(Restaurant.class))
     }
 
 }

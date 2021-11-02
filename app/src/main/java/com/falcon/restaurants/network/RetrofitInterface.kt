@@ -1,5 +1,4 @@
 package com.falcon.restaurants.network
-
 import com.falcon.restaurants.network.restaurant.RestaurantNet
 import com.falcon.restaurants.network.meal.MealNet
 import io.reactivex.Single
@@ -18,11 +17,11 @@ interface RetrofitInterface {
     fun getMeals(@Query("maxUpdatedAt") maxUpdatedAt: String): Single<List<MealNet>>
 
     @FormUrlEncoded
-    @POST("cpanel/login.php")
+    @POST("api/login.php")
     fun login(@Field("name") name: String, @Field("password") password: String): Single<List<MealNet>>
 
     @FormUrlEncoded
-    @POST("cpanel/register.php")
+    @POST("api/register.php")
     fun register(@Field("name") name: String,
                  @Field("email") email: String,
                  @Field("password") password: String): Single<List<MealNet>> 

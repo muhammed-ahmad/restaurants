@@ -1,7 +1,5 @@
-package com.falcon.restaurants.utils;
+package com.falcon.restaurants.utils
 
 object Logger {
-     fun log(tag:String, message:String){
-        println(tag + ": " + message)
-    }
+     fun log(tag:String, message:String) = println("$tag: $message")
 }

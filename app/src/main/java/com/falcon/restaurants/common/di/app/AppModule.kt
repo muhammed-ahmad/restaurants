@@ -17,12 +17,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 class AppModule (var application: Application){
 
     @Provides
-    fun application() : Application { return application }
+    fun application() : Application = application
 
     @Provides
-    fun getRoomDB(): RoomDB{
-        return RoomDB.getInstance(application)
-    }
+    fun getRoomDB(): RoomDB = RoomDB.getInstance(application)
 
     @AppScope
     @Provides
@@ -49,8 +47,6 @@ class AppModule (var application: Application){
 
     @AppScope
     @Provides
-    fun getRetrofitInterface(retrofit: Retrofit): RetrofitInterface {
-        return retrofit.create(RetrofitInterface::class.java)
-    }
+    fun getRetrofitInterface(retrofit: Retrofit): RetrofitInterface = retrofit.create(RetrofitInterface::class.java)
 
 }

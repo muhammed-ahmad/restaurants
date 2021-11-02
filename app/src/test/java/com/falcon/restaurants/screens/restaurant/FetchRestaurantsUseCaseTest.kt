@@ -18,7 +18,6 @@ import org.mockito.kotlin.never
 import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
-
 @RunWith(MockitoJUnitRunner::class)
 class FetchRestaurantsUseCaseTest {
 
@@ -48,7 +47,7 @@ class FetchRestaurantsUseCaseTest {
         val testObserver: TestObserver<String> = SUT.fetch().test()
         // assert
         verify(restaurantDaoMock, times(3)).upsert(any<Restaurant>())
-        testObserver.assertValue({string -> string.equals("upsert_completed")})
+        testObserver.assertValue{ string -> string.equals("upsert_completed") }
     }
 
     // fetch on failed then upsert not called

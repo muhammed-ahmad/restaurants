@@ -1,5 +1,4 @@
 package com.falcon.restaurants.helpers
-
 import android.content.Context
 import android.widget.Toast
 import javax.inject.Inject

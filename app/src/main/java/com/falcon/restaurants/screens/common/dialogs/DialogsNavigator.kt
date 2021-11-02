@@ -1,7 +1,6 @@
-package com.falcon.restaurants.screens.common.dialogs;
-
-import androidx.fragment.app.FragmentManager;
-import javax.inject.Inject;
+package com.falcon.restaurants.screens.common.dialogs
+import androidx.fragment.app.FragmentManager
+import javax.inject.Inject
 
 class DialogsNavigator @Inject constructor (val fragmentManager: FragmentManager) {
 
@@ -9,4 +8,5 @@ class DialogsNavigator @Inject constructor (val fragmentManager: FragmentManager
         val fragment: ServerErrorDialogFragment = ServerErrorDialogFragment.newInstance(error)
         fragment.show(fragmentManager, "fragment_server_error")
     }
+
 }

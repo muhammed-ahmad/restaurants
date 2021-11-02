@@ -1,6 +1,6 @@
-package com.falcon.restaurants.common.di.service;
-import android.app.Service;
-import dagger.Subcomponent;
+package com.falcon.restaurants.common.di.service
+import android.app.Service
+import dagger.Subcomponent
 
 @Subcomponent(modules = [ServiceModule::class])
 interface ServiceComponent {

@@ -21,14 +21,10 @@ class PresentationModule {
 
     // daos
     @Provides
-    fun getMealDao(roomDB: RoomDB): MealDao {
-        return roomDB.mealDao()
-    }
+    fun getMealDao(roomDB: RoomDB): MealDao = roomDB.mealDao()
 
     @Provides
-    fun getRestaurantDao(roomDB: RoomDB): RestaurantDao {
-        return roomDB.restaurantDao()
-    }
+    fun getRestaurantDao(roomDB: RoomDB): RestaurantDao = roomDB.restaurantDao()
 
     // view models
     @Provides

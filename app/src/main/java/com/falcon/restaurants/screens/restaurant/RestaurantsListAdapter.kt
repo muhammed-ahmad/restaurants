@@ -2,71 +2,53 @@ package com.falcon.restaurants.screens.restaurant
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.falcon.restaurants.R
+import com.falcon.restaurants.databinding.RecyclerviewRestaurantItemBinding
 import com.falcon.restaurants.room.restaurant.Restaurant
 import com.falcon.restaurants.screens.common.ImageLoader
 import com.falcon.restaurants.utils.Constants
 
 class RestaurantsListAdapter (
-
-    val context: Context ,
+    val context: Context,
     val layoutInflater: LayoutInflater,
     val filterRestaurantsUseCase: FilterRestaurantsUseCase,
     val imageLoader: ImageLoader
-
-        ): RecyclerView.Adapter<RestaurantsListAdapter.ModelViewHolder>() {
+    ): RecyclerView.Adapter<RestaurantsListAdapter.ModelViewHolder>() {
 
     val TAG: String = "RestaurantsListAdapter" 
 
     var main_arrlst = mutableListOf<Restaurant>()
         set(value){
             field = value
-            filterRestaurantsUseCase.setList(main_arrlst)
             notifyDataSetChanged()
         }
 
-    lateinit var onRestaurantClickListener: OnRestaurantClickListener
+    lateinit var onRestaurantItemClicked: (restaurantId: String) -> Unit
 
-    interface OnRestaurantClickListener {
-        fun onRestaurantClicked(typeId: String)
-    }
+    inner class ModelViewHolder(private val binding: RecyclerviewRestaurantItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    inner class ModelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var name_txt: TextView
-        var restaurant_img: ImageView
+        lateinit var restaurantId: String
+
+        fun bind(currentRestaurant: Restaurant){
+            binding.nameTxt.text = currentRestaurant.name
+            restaurantId = currentRestaurant.id
+            imageLoader.loadImage(binding.restaurantImg, Constants.imagesCategoriesUrl + currentRestaurant.imageUrl)
+        }
 
         init {
-
-            name_txt = itemView.findViewById(R.id.name_txt)
-            restaurant_img = itemView.findViewById(R.id.restaurant_img)
-
-            itemView.setOnClickListener(object :View.OnClickListener{
-                override fun onClick(view: View) {
-                    val typeId: String = name_txt.tag as String
-                    onRestaurantClickListener.onRestaurantClicked(typeId)
-                }
-            })
+            itemView.setOnClickListener { view -> onRestaurantItemClicked(restaurantId) }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ModelViewHolder {
-        val itemView: View = layoutInflater.inflate(R.layout.recyclerview_restaurant_item, parent, false)
-        return ModelViewHolder(itemView)
+        val binding = RecyclerviewRestaurantItemBinding.inflate(layoutInflater, parent, false)
+        return ModelViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ModelViewHolder, position: Int) {
         if (main_arrlst != null) {
-            val current: Restaurant = main_arrlst.get(position)
-            holder.name_txt.setText(current.name)
-            holder.name_txt.setTag(current.id)
-
-            imageLoader.loadImage(holder.restaurant_img,
-                    Constants.imagesCategoriesUrl + current.imageUrl)
+            holder.bind(main_arrlst.get(position))
         }
     }
 
@@ -79,6 +61,11 @@ class RestaurantsListAdapter (
     fun filter(queryText: String){
         main_arrlst = filterRestaurantsUseCase.filter(queryText)
         notifyDataSetChanged()
+    }
+
+    fun setList(restaurants: List<Restaurant>?) {
+        main_arrlst = restaurants as MutableList<Restaurant>
+        filterRestaurantsUseCase.setList(restaurants)
     }
 
 }

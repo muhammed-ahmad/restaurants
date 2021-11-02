@@ -1,44 +1,34 @@
 package com.falcon.restaurants.network.meal
-
+import android.annotation.SuppressLint
 import com.falcon.restaurants.network.RetrofitInterface
 import com.falcon.restaurants.utils.Logger
-import javax.inject.Inject
 import io.reactivex.Single
-import io.reactivex.SingleObserver
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 class FetchMealsEndPoint @Inject constructor(val retrofitInterface: RetrofitInterface){
 
     val TAG = "FetchMealsEndPoint"
 
-    interface listener{
+    interface Listener{
         fun onFetchSuccess(mealNets: List<MealNet>)
         fun onFetchFailed(e: Throwable)
     }
 
-    fun fetch(maxUpdatedAt: String , listener: listener) {
+    @SuppressLint("CheckResult")
+    fun fetch(maxUpdatedAt: String, Listener: Listener) {
 
         val single: Single<List<MealNet>> = retrofitInterface.getMeals(maxUpdatedAt)
 
-        val singleObserver: SingleObserver<List<MealNet>>  = object : SingleObserver<List<MealNet>> {
-            
-            override fun onSubscribe(d: Disposable) {
-                Logger.log( TAG, "onSubscribe: ")
+        single.subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).subscribe (
+            { mealNets -> Logger.log( TAG, "onSuccess: ")
+                          Listener.onFetchSuccess(mealNets)
+            },
+            { throwable -> Logger.log( TAG, "onError: e: " + throwable.getLocalizedMessage())
+                           Listener.onFetchFailed(throwable)
             }
-            
-            override fun onSuccess(mealNets: List<MealNet>) {
-                Logger.log( TAG, "onSuccess: ")
-                listener.onFetchSuccess(mealNets)
-            }
+        )
 
-            override fun onError(e: Throwable) {
-                Logger.log( TAG, "onError: e: " + e.getLocalizedMessage())
-                listener.onFetchFailed(e)
-            }
-        }
-
-        single.subscribeOn(Schedulers.io()).observeOn(Schedulers.io()).subscribe(singleObserver)
     }
 
 }

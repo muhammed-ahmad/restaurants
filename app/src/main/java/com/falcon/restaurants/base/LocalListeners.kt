@@ -1,4 +1,4 @@
-package com.falcon.restaurants.base;
+package com.falcon.restaurants.base
 
 class LocalListeners {
 

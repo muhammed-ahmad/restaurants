@@ -1,5 +1,4 @@
 package com.falcon.restaurants.screens.meal
-
 import android.annotation.SuppressLint
 import com.falcon.restaurants.network.meal.FetchMealsEndPoint
 import com.falcon.restaurants.network.meal.MealNet
@@ -21,14 +20,11 @@ class FetchMealsUseCase @Inject constructor (
 
     @SuppressLint("CheckResult")
     fun fetch(): Observable<String>{
-        return Observable.create(object: ObservableOnSubscribe<String> {
-
-            @Throws(Exception::class)
-            override fun subscribe(emitter: ObservableEmitter<String>){
+        return Observable.create{emitter ->
                 val  maxUpdatedAt: String = mealDao.getMaxUpdated()
 
-                fetchMealsEndPoint.fetch(maxUpdatedAt, object: FetchMealsEndPoint.listener{
-                    
+                fetchMealsEndPoint.fetch(maxUpdatedAt, object: FetchMealsEndPoint.Listener{
+
                     override fun onFetchSuccess(mealNets: List<MealNet>) {
                         Logger.log( TAG, "onFetchSuccess: " + mealNets.size)
                         upsert(mealNets)
@@ -41,8 +37,8 @@ class FetchMealsUseCase @Inject constructor (
                         emitter.onError(e)
                     }
                 })
-            }
-        })
+
+        }
     }
 
     fun getByRestaurantId(typeIdV: String): Observable<List<Meal>> {

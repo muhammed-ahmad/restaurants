@@ -1,7 +1,5 @@
 package com.falcon.restaurants.screens.common.dialogs;
-
 import androidx.fragment.app.DialogFragment;
-import com.falcon.restaurants.common.di.presentation.PresentationComponent;
 import com.falcon.restaurants.common.di.presentation.PresentationModule;
 import com.falcon.restaurants.screens.common.BaseActivity;
 

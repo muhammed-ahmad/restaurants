@@ -1,7 +1,7 @@
 # Restaurants
-Restaurants app displays a list of resturants and meals
+Restaurants app displays a list of restaurants and meals
 - it uses a backend api to get data and cache it locally using room.
-- it allow filtering the current meals and resturants list.
+- it allow filtering the current meals and restaurants list.
 - each restart it connect to the backend and gets what was updated recently.
 
 <br />
@@ -22,10 +22,15 @@ Restaurants app displays a list of resturants and meals
 
 # Tech Stack
 
+- Architecture
+    - Clean Architecture
+    - MVVM Architecture (ViewModel - UseCases - Model)
+    - Repository pattern
+
 - Kotlin (main branch), Java (java branch)
 
 - Reactive Programming
-    - RXjava
+    - RxJava
     - LiveData
 
 - Other
@@ -46,21 +51,11 @@ Restaurants app displays a list of resturants and meals
 - Networking
     - Retrofit
     - REST APIs / JSON
-    
-- Architecture
-    - MVVM Architecture (ViewModel - UseCases - Model)
-    - No Repository pattern
-    
+
 - SOLID
 
 <br />
 
-# TODO
-- hilt
-- fragments instead of activities
-- may be add login and register screens
-
-<br />
 
 # License & Copyright
 Copyright (c) 2021 **Muhammad-2021**

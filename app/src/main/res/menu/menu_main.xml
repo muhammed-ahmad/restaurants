@@ -1,16 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.falcon.restaurants.screens.restaurant.CategoriesActivity">
-
-    <item
-        android:id="@+id/mnuSearch"
-        android:orderInCategory="160"
-        android:title="Search"
-        android:icon="@drawable/baseline_search_white_24"
-        app:showAsAction="always"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
-        />
+    tools:context="com.falcon.restaurants.presentation.screens.restaurant.CategoriesActivity">
 
     <!--<item-->
         <!--android:id="@+id/mnuAdd"-->

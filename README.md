@@ -1,7 +1,6 @@
 # Restaurants
 Restaurants app displays a list of restaurants and meals
 - it uses a backend api to get data and cache it locally using room.
-- it allow filtering the current meals and restaurants list.
 - each restart it connect to the backend and gets what was updated recently.
 
 <br />
@@ -15,7 +14,6 @@ Restaurants app displays a list of restaurants and meals
 </p>
 <br />
 <p float="left">
-  <img src="screenshots/meals-search.png" width="45%" />
   <img src="screenshots/meal-details.png" width="45%" /> 
 </p>
 <br />
@@ -24,10 +22,10 @@ Restaurants app displays a list of restaurants and meals
 
 - Architecture
     - Clean Architecture
-    - MVVM Architecture (ViewModel - UseCases - Model)
-    - Repository pattern
+    - MVVM Architecture
+    - Repository Pattern
 
-- Kotlin (main branch), Java (java branch)
+- Kotlin
 
 - Reactive Programming
     - RxJava

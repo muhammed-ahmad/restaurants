@@ -2,52 +2,38 @@ package com.falcon.restaurants.data.repository
 
 import android.annotation.SuppressLint
 import com.falcon.restaurants.data.mapper.RestaurantModelMapper
-import com.falcon.restaurants.data.network.restaurant.FetchRestaurantsEndPoint
+import com.falcon.restaurants.data.network.RetrofitInterface
 import com.falcon.restaurants.data.network.restaurant.RestaurantNet
 import com.falcon.restaurants.data.room.restaurant.RestaurantModel
 import com.falcon.restaurants.data.room.restaurant.RestaurantModelDao
 import com.falcon.restaurants.domain.model.Restaurant
 import com.falcon.restaurants.domain.repository.RestaurantRepository
-import com.falcon.restaurants.domain.utils.Logger
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
+
 
 class RestaurantRepositoryImpl @Inject constructor(
     val restaurantModelDao: RestaurantModelDao,
-    val fetchRestaurantsEndPoint: FetchRestaurantsEndPoint,
+    val retrofitInterface: RetrofitInterface,
     var restaurantModelMapper: RestaurantModelMapper
+
     ) : RestaurantRepository{
 
     val TAG: String = "RestaurantRepositoryImpl"
 
     @SuppressLint("CheckResult")
-    override fun fetch(): Observable<String>{
+    override fun fetchAndUpsert(): Completable {
 
-        return Observable.create{
-                emitter ->
-                    val maxUpdatedAt: String = restaurantModelDao.getMaxUpdated()
-                    //Logger.log(TAG, maxUpdatedAt)
-
-                    // this is for test
-                    //val maxUpdatedAt: String = "1970-01-01 00:00:01"
-                    //////
-
-                    fetchRestaurantsEndPoint.fetch(maxUpdatedAt, object: FetchRestaurantsEndPoint.Listener {
-
-                        override fun onFetchSuccess(restaurantNets: List<RestaurantNet>) {
-                            Logger.log(TAG , " onFetchSuccess: " + restaurantNets.size)
-                            upsert(restaurantNets)
-                            emitter.onNext("upsert_completed")
-                            emitter.onComplete()
-                        }
-
-                        override fun onFetchFailed(e: Throwable) {
-                            Logger.log(TAG, "onFetchFailed: error: " + e.getLocalizedMessage())
-                            emitter.onError(e)
-                        }
-                    })
-            }
+        return Completable.defer {
+            val maxUpdatedAt: String = restaurantModelDao.getMaxUpdated()
+            // this is for test
+            //val maxUpdatedAt: String = "1970-01-01 00:00:01"
+            retrofitInterface.getRestaurants(maxUpdatedAt)
+                             .flatMapCompletable { restaurantNets -> upsert(restaurantNets) }
+        }.subscribeOn(Schedulers.io())
     }
 
     override fun getByParentId(parent_id: String): Observable<List<Restaurant>> =
@@ -67,9 +53,11 @@ class RestaurantRepositoryImpl @Inject constructor(
                 restaurantNet.updatedAt)
         )
 
-    override fun upsert(restaurantNets: List<RestaurantNet>) {
-        for (restaurantCurrent in restaurantNets) {
-            val rowId: Long = upsert(restaurantCurrent)
+    override fun upsert(restaurantNets: List<RestaurantNet>): Completable {
+        return Completable.fromAction {
+            for (restaurantCurrent in restaurantNets) {
+                val rowId: Long = upsert(restaurantCurrent)
+            }
         }
     }
 

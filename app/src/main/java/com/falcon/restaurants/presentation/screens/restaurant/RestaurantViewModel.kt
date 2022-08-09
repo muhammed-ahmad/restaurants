@@ -10,6 +10,7 @@ import com.falcon.restaurants.domain.interactor.LocalListeners
 import com.falcon.restaurants.domain.interactor.FetchRestaurantsUseCase
 import com.falcon.restaurants.domain.utils.Logger
 import com.falcon.restaurants.presentation.model.RestaurantUiModel
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -23,7 +24,7 @@ class RestaurantViewModel(
     val TAG: String = "RestaurantViewModel"
     lateinit var restaurantsMutableLiveData: MutableLiveData<List<RestaurantUiModel>>
 
-    fun fetch(): Observable<String> = fetchRestaurantsUseCase.fetch()
+    fun fetchAndUpsert(): Completable = fetchRestaurantsUseCase.fetchAndUpsert()
 
     @SuppressLint("CheckResult")
     fun getByParentId(restaurantId: String): LiveData<List<RestaurantUiModel>> {

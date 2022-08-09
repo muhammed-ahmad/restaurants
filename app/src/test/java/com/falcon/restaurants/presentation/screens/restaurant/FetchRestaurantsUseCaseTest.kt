@@ -1,7 +1,6 @@
 package com.falcon.restaurants.presentation.screens.restaurant
 
 import com.falcon.restaurants.data.network.RetrofitInterface
-import com.falcon.restaurants.data.network.restaurant.FetchRestaurantsEndPoint
 import com.falcon.restaurants.data.network.restaurant.RestaurantNet
 import com.falcon.restaurants.data.room.restaurant.RestaurantModel
 import com.falcon.restaurants.data.room.restaurant.RestaurantModelDao
@@ -45,7 +44,7 @@ class FetchRestaurantsUseCaseTest {
         // Arrange
         success()
         // act
-        val testObserver: TestObserver<String> = SUT.fetch().test()
+        val testObserver: TestObserver<String> = SUT.fetchAndUpsert().test()
         // assert
         verify(restaurantModelDaoMock, times(3)).upsert(any<RestaurantModel>())
         testObserver.assertValue{ string -> string.equals("upsert_completed") }
@@ -57,7 +56,7 @@ class FetchRestaurantsUseCaseTest {
         // Arrange
         failure()
         // act
-        SUT.fetch().test()
+        SUT.fetchAndUpsert().test()
         // assert
         verify(restaurantModelDaoMock, never()).upsert(ArrayList())
     }
@@ -68,7 +67,7 @@ class FetchRestaurantsUseCaseTest {
         // Arrange
         failure()
         // act
-        val testObserver: TestObserver<String> = SUT.fetch().test()
+        val testObserver: TestObserver<String> = SUT.fetchAndUpsert().test()
         // assert
         testObserver.assertError(Throwable::class.java)
     }

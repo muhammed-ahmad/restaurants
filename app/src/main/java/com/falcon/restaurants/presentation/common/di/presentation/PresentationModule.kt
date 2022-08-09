@@ -5,8 +5,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.falcon.models.presentation.mapper.RestaurantMapper
 import com.falcon.restaurants.data.mapper.MealModelMapper
 import com.falcon.restaurants.data.mapper.RestaurantModelMapper
-import com.falcon.restaurants.data.network.meal.FetchMealsEndPoint
-import com.falcon.restaurants.data.network.restaurant.FetchRestaurantsEndPoint
+import com.falcon.restaurants.data.network.RetrofitInterface
 import com.falcon.restaurants.data.repository.MealRepositoryImpl
 import com.falcon.restaurants.data.repository.RestaurantRepositoryImpl
 import com.falcon.restaurants.data.room.RoomDB
@@ -41,19 +40,19 @@ class PresentationModule {
     @Provides
     fun getRestaurantRepository(
         restaurantModelDao: RestaurantModelDao,
-        fetchRestaurantsEndPoint: FetchRestaurantsEndPoint,
+        retrofitInterface: RetrofitInterface,
         restaurantModelMapper: RestaurantModelMapper
     ): RestaurantRepository {
-        return RestaurantRepositoryImpl(restaurantModelDao, fetchRestaurantsEndPoint, restaurantModelMapper)
+        return RestaurantRepositoryImpl(restaurantModelDao, retrofitInterface, restaurantModelMapper)
     }
 
     @Provides
     fun getMealRepository(
         mealModelDao: MealModelDao,
-        fetchMealsEndPoint: FetchMealsEndPoint,
+        retrofitInterface: RetrofitInterface,
         mealModelMapper: MealModelMapper
     ): MealRepository {
-        return MealRepositoryImpl(mealModelDao, fetchMealsEndPoint, mealModelMapper)
+        return MealRepositoryImpl(mealModelDao, retrofitInterface, mealModelMapper)
     }
 
     // view models

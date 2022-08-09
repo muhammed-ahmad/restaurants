@@ -1,47 +1,39 @@
 package com.falcon.restaurants.data.repository
 import android.annotation.SuppressLint
 import com.falcon.restaurants.data.mapper.MealModelMapper
-import com.falcon.restaurants.data.network.meal.FetchMealsEndPoint
+import com.falcon.restaurants.data.network.RetrofitInterface
 import com.falcon.restaurants.data.network.meal.MealNet
 import com.falcon.restaurants.data.room.meal.MealModel
 import com.falcon.restaurants.data.room.meal.MealModelDao
 import com.falcon.restaurants.domain.model.Meal
 import com.falcon.restaurants.domain.repository.MealRepository
 import com.falcon.restaurants.domain.utils.Logger
-import com.falcon.restaurants.presentation.mapper.MealMapper
+import io.reactivex.Completable
 import javax.inject.Inject
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 
 class MealRepositoryImpl @Inject constructor (
     val mealModelDao: MealModelDao,
-    val fetchMealsEndPoint: FetchMealsEndPoint,
+    val retrofitInterface: RetrofitInterface,
     val mealModelMapper: MealModelMapper
+
     ) : MealRepository {
 
     val TAG: String = "MealRepositoryImpl"
 
     @SuppressLint("CheckResult")
-    override fun fetch(): Observable<String>{
-        return Observable.create{emitter ->
-                val  maxUpdatedAt: String = mealModelDao.getMaxUpdated()
+    override fun fetchAndUpsert(): Completable {
 
-                fetchMealsEndPoint.fetch(maxUpdatedAt, object: FetchMealsEndPoint.Listener{
+        return Completable.defer {
+            val maxUpdatedAt: String = mealModelDao.getMaxUpdated()
+            // this is for test
+            //val maxUpdatedAt: String = "1970-01-01 00:00:01"
+            retrofitInterface.getMeals(maxUpdatedAt)
+                .flatMapCompletable { mealNets -> upsert(mealNets) }
+        }.subscribeOn(Schedulers.io())
 
-                    override fun onFetchSuccess(mealNets: List<MealNet>) {
-                        Logger.log( TAG, "onFetchSuccess: " + mealNets.size)
-                        upsert(mealNets)
-                        emitter.onNext("meal completed")
-                        emitter.onComplete()
-                    }
-
-                    override fun onFetchFailed(e: Throwable) {
-                        Logger.log( TAG, "onFetchFailed: e: " + e.getLocalizedMessage())
-                        emitter.onError(e)
-                    }
-                })
-
-        }
     }
 
     override fun getByRestaurantId(typeIdV: String): Observable<List<Meal>> {
@@ -69,9 +61,11 @@ class MealRepositoryImpl @Inject constructor (
             ))
     }
 
-    override fun upsert(mealNets: List<MealNet>) {
-        for (mealCurrent in mealNets) {
-            upsert(mealCurrent)
+    override fun upsert(mealNets: List<MealNet>) : Completable{
+        return  Completable.fromAction {
+            for (mealCurrent in mealNets) {
+                upsert(mealCurrent)
+            }
         }
     }
 

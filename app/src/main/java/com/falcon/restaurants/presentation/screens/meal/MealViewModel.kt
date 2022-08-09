@@ -8,6 +8,7 @@ import com.falcon.restaurants.domain.interactor.FetchMealsUseCase
 import com.falcon.restaurants.domain.utils.Logger
 import com.falcon.restaurants.presentation.mapper.MealMapper
 import com.falcon.restaurants.presentation.model.MealUiModel
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -26,7 +27,7 @@ class MealViewModel (
         fun onQueryFailed(throwable: Throwable)
     }
 
-    fun fetch() : Observable<String> = fetchMealsUseCase.fetch()
+    fun fetchAndUpsert() : Completable = fetchMealsUseCase.fetchAndUpsert()
 
     @SuppressLint("CheckResult")
     fun getByRestaurantId(restaurantId: String) : LiveData<List<MealUiModel>> {

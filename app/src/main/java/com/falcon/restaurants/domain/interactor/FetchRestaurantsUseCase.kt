@@ -1,6 +1,5 @@
 package com.falcon.restaurants.domain.interactor
 
-import com.falcon.restaurants.data.network.restaurant.RestaurantNet
 import com.falcon.restaurants.domain.model.Restaurant
 import com.falcon.restaurants.domain.repository.RestaurantRepository
 import io.reactivex.Completable

@@ -1,6 +1,6 @@
 package com.falcon.restaurants.data.network
-import com.falcon.restaurants.data.network.restaurant.RestaurantNet
-import com.falcon.restaurants.data.network.meal.MealNet
+import com.falcon.restaurants.data.network.restaurant.RestaurantDto
+import com.falcon.restaurants.data.network.meal.MealDto
 import io.reactivex.Single
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -11,19 +11,19 @@ import retrofit2.http.Query
 interface RetrofitInterface {
 
     @GET("api/getRestaurants.php")
-    fun  getRestaurants(@Query("maxUpdatedAt") maxUpdatedAt: String ): Single<List<RestaurantNet>>
+    fun  getRestaurantDtos(@Query("maxUpdatedAt") maxUpdatedAt: String ): Single<List<RestaurantDto>>
 
     @GET("api/getMeals.php")
-    fun getMeals(@Query("maxUpdatedAt") maxUpdatedAt: String): Single<List<MealNet>>
+    fun getMealDtos(@Query("maxUpdatedAt") maxUpdatedAt: String): Single<List<MealDto>>
 
     @FormUrlEncoded
     @POST("api/login.php")
-    fun login(@Field("name") name: String, @Field("password") password: String): Single<List<MealNet>>
+    fun login(@Field("name") name: String, @Field("password") password: String): Single<List<MealDto>>
 
     @FormUrlEncoded
     @POST("api/register.php")
     fun register(@Field("name") name: String,
                  @Field("email") email: String,
-                 @Field("password") password: String): Single<List<MealNet>> 
+                 @Field("password") password: String): Single<List<MealDto>>
 
 }

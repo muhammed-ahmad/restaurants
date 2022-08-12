@@ -1,5 +1,4 @@
 package com.falcon.restaurants.domain.interactor
-import com.falcon.restaurants.data.network.meal.MealNet
 import com.falcon.restaurants.domain.model.Meal
 import com.falcon.restaurants.domain.repository.MealRepository
 import io.reactivex.Completable
@@ -13,7 +12,7 @@ class FetchMealsUseCase @Inject constructor (
 
     fun fetchAndUpsert(): Completable = mealRepository.fetchAndUpsert()
 
-    fun getByRestaurantId(typeIdV: String): Observable<List<Meal>> = mealRepository.getByRestaurantId(typeIdV)
+    fun getByRestaurantId(typeIdV: String): Observable<List<Meal>> = mealRepository.getMealsByRestaurantId(typeIdV)
 
     fun getMealById(mealId: String): Single<Meal> = mealRepository.getMealById(mealId)
 

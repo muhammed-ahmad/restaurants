@@ -1,6 +1,4 @@
 package com.falcon.restaurants.domain.repository
-import com.falcon.restaurants.data.network.meal.MealNet
-import com.falcon.restaurants.data.room.meal.MealModel
 import com.falcon.restaurants.domain.model.Meal
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -10,11 +8,11 @@ interface MealRepository {
 
     fun fetchAndUpsert(): Completable
 
-    fun getByRestaurantId(typeIdV: String): Observable<List<Meal>>
+    fun getMealsByRestaurantId(typeIdV: String): Observable<List<Meal>>
 
     fun getMealById(mealId: String): Single<Meal>
 
-    fun upsert(mealNet: MealNet)
+    fun upsert(meal: Meal)
 
-    fun upsert(mealNets: List<MealNet>): Completable
+    fun upsert(meals: List<Meal>): Completable
 }

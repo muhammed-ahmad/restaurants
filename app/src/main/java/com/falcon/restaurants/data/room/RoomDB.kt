@@ -3,16 +3,16 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import android.content.Context
-import com.falcon.restaurants.data.room.restaurant.RestaurantModel
-import com.falcon.restaurants.data.room.restaurant.RestaurantModelDao
-import com.falcon.restaurants.data.room.meal.MealModel
-import com.falcon.restaurants.data.room.meal.MealModelDao
+import com.falcon.restaurants.data.room.restaurant.RestaurantData
+import com.falcon.restaurants.data.room.restaurant.RestaurantDataDao
+import com.falcon.restaurants.data.room.meal.MealData
+import com.falcon.restaurants.data.room.meal.MealDataDao
 
-@Database(entities = [MealModel::class, RestaurantModel::class], version = 1)
+@Database(entities = [MealData::class, RestaurantData::class], version = 1)
 abstract class RoomDB : RoomDatabase() {
 
-    abstract fun mealDao(): MealModelDao
-    abstract fun restaurantDao(): RestaurantModelDao
+    abstract fun mealDao(): MealDataDao
+    abstract fun restaurantDao(): RestaurantDataDao
 
     companion object {
         @Volatile

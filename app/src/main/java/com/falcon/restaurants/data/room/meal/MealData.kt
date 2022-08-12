@@ -6,7 +6,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(indices = [Index(value = ["id"], unique = true)])
-data class MealModel (
+data class MealData (
     @PrimaryKey @NonNull val id: String,
     @NonNull val name: String,
     val details: String,

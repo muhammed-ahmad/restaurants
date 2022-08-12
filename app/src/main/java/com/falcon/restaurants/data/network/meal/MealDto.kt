@@ -1,6 +1,6 @@
 package com.falcon.restaurants.data.network.meal;
 
-data class MealNet(
+data class MealDto(
     val id: String,
     val name : String,
     val details: String,

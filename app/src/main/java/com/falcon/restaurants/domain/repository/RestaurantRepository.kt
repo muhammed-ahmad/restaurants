@@ -1,7 +1,6 @@
 package com.falcon.restaurants.domain.repository
 
-import com.falcon.restaurants.data.network.restaurant.RestaurantNet
-import com.falcon.restaurants.data.room.restaurant.RestaurantModel
+import com.falcon.restaurants.data.network.restaurant.RestaurantDto
 import com.falcon.restaurants.domain.model.Restaurant
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -15,8 +14,8 @@ interface RestaurantRepository {
 
     fun hasChildren(id: String): Single<Boolean>
 
-    fun upsert(restaurantNet: RestaurantNet): Long
+    fun upsert(restaurant: Restaurant): Long
 
-    fun upsert(restaurantNets: List<RestaurantNet>): Completable
+    fun upsert(restaurants: List<Restaurant>): Completable
 
 }

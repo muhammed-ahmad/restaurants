@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.falcon.restaurants.databinding.ActivityMealDetailsBinding
-import com.falcon.restaurants.data.room.meal.MealModel
 import com.falcon.restaurants.presentation.screens.common.BaseActivity
 import com.falcon.restaurants.presentation.screens.common.ImageLoader
 import com.falcon.restaurants.presentation.screens.meal.MealViewModel

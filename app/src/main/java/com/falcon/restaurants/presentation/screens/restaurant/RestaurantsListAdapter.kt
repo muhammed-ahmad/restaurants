@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.falcon.restaurants.databinding.RecyclerviewRestaurantItemBinding
-import com.falcon.restaurants.data.room.restaurant.RestaurantModel
 import com.falcon.restaurants.presentation.screens.common.ImageLoader
 import com.falcon.restaurants.domain.utils.Constants
 import com.falcon.restaurants.presentation.model.RestaurantUiModel

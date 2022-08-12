@@ -1,9 +1,9 @@
 package com.falcon.restaurants.presentation.screens.restaurant
 
 import com.falcon.restaurants.data.network.RetrofitInterface
-import com.falcon.restaurants.data.network.restaurant.RestaurantNet
-import com.falcon.restaurants.data.room.restaurant.RestaurantModel
-import com.falcon.restaurants.data.room.restaurant.RestaurantModelDao
+import com.falcon.restaurants.data.network.restaurant.RestaurantDto
+import com.falcon.restaurants.data.room.restaurant.RestaurantData
+import com.falcon.restaurants.data.room.restaurant.RestaurantDataDao
 import com.falcon.restaurants.domain.interactor.FetchRestaurantsUseCase
 import com.falcon.restaurants.testdata.RestaurantTestData
 import io.reactivex.observers.TestObserver
@@ -21,21 +21,21 @@ import org.mockito.kotlin.verify
 @RunWith(MockitoJUnitRunner::class)
 class FetchRestaurantsUseCaseTest {
 
-    val RESTAURANTNETS: MutableList<RestaurantNet> = RestaurantTestData.createRestaurantNets()
+    val RESTAURANTNETS: MutableList<RestaurantDto> = RestaurantTestData.createRestaurantNets()
     lateinit var SUT: FetchRestaurantsUseCase
 
     lateinit var fetchRestaurantsEndPointTd: FetchRestaurantsEndPointTd
-    @Mock lateinit var restaurantModelDaoMock: RestaurantModelDao
+    @Mock lateinit var restaurantDataDaoMock: RestaurantDataDao
     @Mock lateinit var retrofitInterfaceMock: RetrofitInterface
 
     @Before
     fun setUp(){
         fetchRestaurantsEndPointTd = FetchRestaurantsEndPointTd(retrofitInterfaceMock)
         SUT = FetchRestaurantsUseCase(
-                restaurantModelDaoMock,
+                restaurantDataDaoMock,
                 fetchRestaurantsEndPointTd
         )
-        `when`(restaurantModelDaoMock.getMaxUpdated()).thenReturn("1970-01-01 00:00:01")
+        `when`(restaurantDataDaoMock.getMaxUpdated()).thenReturn("1970-01-01 00:00:01")
     }
 
     // fetch on success then upsert is called with the correct data and Observable emits upsert_completed
@@ -46,7 +46,7 @@ class FetchRestaurantsUseCaseTest {
         // act
         val testObserver: TestObserver<String> = SUT.fetchAndUpsert().test()
         // assert
-        verify(restaurantModelDaoMock, times(3)).upsert(any<RestaurantModel>())
+        verify(restaurantDataDaoMock, times(3)).upsert(any<RestaurantData>())
         testObserver.assertValue{ string -> string.equals("upsert_completed") }
     }
 
@@ -58,7 +58,7 @@ class FetchRestaurantsUseCaseTest {
         // act
         SUT.fetchAndUpsert().test()
         // assert
-        verify(restaurantModelDaoMock, never()).upsert(ArrayList())
+        verify(restaurantDataDaoMock, never()).upsert(ArrayList())
     }
 
     // fetch on failed then Observable emits error

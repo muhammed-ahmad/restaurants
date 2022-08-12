@@ -3,14 +3,14 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.falcon.models.presentation.mapper.RestaurantMapper
-import com.falcon.restaurants.data.mapper.MealModelMapper
-import com.falcon.restaurants.data.mapper.RestaurantModelMapper
+import com.falcon.restaurants.data.mapper.MealDataMapper
+import com.falcon.restaurants.data.mapper.RestaurantDataMapper
 import com.falcon.restaurants.data.network.RetrofitInterface
 import com.falcon.restaurants.data.repository.MealRepositoryImpl
 import com.falcon.restaurants.data.repository.RestaurantRepositoryImpl
 import com.falcon.restaurants.data.room.RoomDB
-import com.falcon.restaurants.data.room.meal.MealModelDao
-import com.falcon.restaurants.data.room.restaurant.RestaurantModelDao
+import com.falcon.restaurants.data.room.meal.MealDataDao
+import com.falcon.restaurants.data.room.restaurant.RestaurantDataDao
 import com.falcon.restaurants.domain.interactor.FetchMealsUseCase
 import com.falcon.restaurants.domain.interactor.FetchRestaurantsUseCase
 import com.falcon.restaurants.domain.repository.MealRepository
@@ -31,28 +31,28 @@ class PresentationModule {
 
     // daos
     @Provides
-    fun getMealDao(roomDB: RoomDB): MealModelDao = roomDB.mealDao()
+    fun getMealDao(roomDB: RoomDB): MealDataDao = roomDB.mealDao()
 
     @Provides
-    fun getRestaurantDao(roomDB: RoomDB): RestaurantModelDao = roomDB.restaurantDao()
+    fun getRestaurantDao(roomDB: RoomDB): RestaurantDataDao = roomDB.restaurantDao()
 
     // repositories
     @Provides
     fun getRestaurantRepository(
-        restaurantModelDao: RestaurantModelDao,
+        restaurantDataDao: RestaurantDataDao,
         retrofitInterface: RetrofitInterface,
-        restaurantModelMapper: RestaurantModelMapper
+        restaurantDataMapper: RestaurantDataMapper
     ): RestaurantRepository {
-        return RestaurantRepositoryImpl(restaurantModelDao, retrofitInterface, restaurantModelMapper)
+        return RestaurantRepositoryImpl(restaurantDataDao, retrofitInterface, restaurantDataMapper)
     }
 
     @Provides
     fun getMealRepository(
-        mealModelDao: MealModelDao,
+        mealDataDao: MealDataDao,
         retrofitInterface: RetrofitInterface,
-        mealModelMapper: MealModelMapper
+        mealDataMapper: MealDataMapper
     ): MealRepository {
-        return MealRepositoryImpl(mealModelDao, retrofitInterface, mealModelMapper)
+        return MealRepositoryImpl(mealDataDao, retrofitInterface, mealDataMapper)
     }
 
     // view models

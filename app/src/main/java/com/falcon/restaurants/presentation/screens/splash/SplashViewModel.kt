@@ -35,13 +35,14 @@ class SplashViewModel (
         all.subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe(
-                { Logger.log(TAG,  "onComplete: ")
-                    allUpsertedListener.onSuccess() }
-            ) { throwable -> Logger.log( TAG, "onError: " + throwable.localizedMessage)
-                allUpsertedListener.onFailed(throwable) }
+               { Logger.log(TAG,  "onComplete: ")
+                 allUpsertedListener.onSuccess()
+               },
+               { throwable -> Logger.log( TAG, "onError: " + throwable.localizedMessage)
+                 allUpsertedListener.onFailed(throwable)
+               })
 
         Completable.complete()
-
 
     }
 

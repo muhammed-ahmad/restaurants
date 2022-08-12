@@ -1,11 +1,11 @@
 package com.falcon.restaurants.data.repository
 
 import android.annotation.SuppressLint
-import com.falcon.restaurants.data.mapper.RestaurantModelMapper
+import com.falcon.restaurants.data.mapper.RestaurantDataMapper
 import com.falcon.restaurants.data.network.RetrofitInterface
-import com.falcon.restaurants.data.network.restaurant.RestaurantNet
-import com.falcon.restaurants.data.room.restaurant.RestaurantModel
-import com.falcon.restaurants.data.room.restaurant.RestaurantModelDao
+import com.falcon.restaurants.data.network.restaurant.RestaurantDto
+import com.falcon.restaurants.data.room.restaurant.RestaurantData
+import com.falcon.restaurants.data.room.restaurant.RestaurantDataDao
 import com.falcon.restaurants.domain.model.Restaurant
 import com.falcon.restaurants.domain.repository.RestaurantRepository
 import io.reactivex.Completable
@@ -16,9 +16,9 @@ import javax.inject.Inject
 
 
 class RestaurantRepositoryImpl @Inject constructor(
-    val restaurantModelDao: RestaurantModelDao,
+    val restaurantDataDao: RestaurantDataDao,
     val retrofitInterface: RetrofitInterface,
-    var restaurantModelMapper: RestaurantModelMapper
+    var restaurantDataMapper: RestaurantDataMapper
 
     ) : RestaurantRepository{
 
@@ -28,36 +28,29 @@ class RestaurantRepositoryImpl @Inject constructor(
     override fun fetchAndUpsert(): Completable {
 
         return Completable.defer {
-            val maxUpdatedAt: String = restaurantModelDao.getMaxUpdated()
+            val maxUpdatedAt: String = restaurantDataDao.getMaxUpdated()
             // this is for test
             //val maxUpdatedAt: String = "1970-01-01 00:00:01"
-            retrofitInterface.getRestaurants(maxUpdatedAt)
-                             .flatMapCompletable { restaurantNets -> upsert(restaurantNets) }
+            retrofitInterface.getRestaurantDtos(maxUpdatedAt)
+                             .flatMapCompletable {
+                                     restaurantDtos -> upsert(restaurantDataMapper.dtoToDomainList(restaurantDtos))
+                             }
         }.subscribeOn(Schedulers.io())
     }
 
     override fun getByParentId(parent_id: String): Observable<List<Restaurant>> =
-        restaurantModelDao.getByParentId(parent_id).map {
-            restaurantModels -> restaurantModelMapper.toDomainList(restaurantModels)
+        restaurantDataDao.getByParentId(parent_id).map {
+            restaurantModels -> restaurantDataMapper.dataToDomainList(restaurantModels)
         }
 
-    override fun hasChildren(id: String): Single<Boolean> = restaurantModelDao.hasChildren(id)
+    override fun hasChildren(id: String): Single<Boolean> = restaurantDataDao.hasChildren(id)
 
-    override fun upsert(restaurantNet: RestaurantNet): Long = restaurantModelDao.upsert(
-        RestaurantModel(
-                restaurantNet.id,
-                restaurantNet.parentId,
-                restaurantNet.name,
-                restaurantNet.imageUrl,
-                restaurantNet.active,
-                restaurantNet.updatedAt)
-        )
+    override fun upsert(restaurant: Restaurant): Long = restaurantDataDao.upsert(
+        restaurantDataMapper.domainToData(restaurant)
+    )
 
-    override fun upsert(restaurantNets: List<RestaurantNet>): Completable {
-        return Completable.fromAction {
-            for (restaurantCurrent in restaurantNets) {
-                val rowId: Long = upsert(restaurantCurrent)
-            }
+    override fun upsert(restaurants: List<Restaurant>): Completable {
+        return Completable.fromAction { restaurants.map { upsert(it) }
         }
     }
 

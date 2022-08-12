@@ -22,8 +22,8 @@ class RestaurantUiModelModelDaoTest {
 
     companion object {
         const val TAG: String = "RestaurantDaoTest"
-        val RESTAURANT_MODELS: List<RestaurantModel> = RestaurantTestDataInstrument.createRestaurants() as List<RestaurantModel>
-        lateinit var SUT: RestaurantModelDao
+        val RESTAURANT_DATA: List<RestaurantData> = RestaurantTestDataInstrument.createRestaurants() as List<RestaurantData>
+        lateinit var SUT: RestaurantDataDao
         lateinit var db: RoomDB
 
         @BeforeClass @JvmStatic
@@ -45,7 +45,7 @@ class RestaurantUiModelModelDaoTest {
     fun setUpForEachMethod() {
         SUT = Mockito.spy(db.restaurantDao())
         db.clearAllTables()
-        SUT.upsert(RESTAURANT_MODELS)
+        SUT.upsert(RESTAURANT_DATA)
         Mockito.reset(SUT)
     }
 
@@ -53,7 +53,7 @@ class RestaurantUiModelModelDaoTest {
     fun getByParentId_nonEmptyList_returnNonEmptyListHavingTheSameParentId() {
         // arrange
         // act
-        val testObserver: TestObserver<List<RestaurantModel>> = SUT.getByParentId("0").test()
+        val testObserver: TestObserver<List<RestaurantData>> = SUT.getByParentId("0").test()
         // assert
         testObserver.assertValue { restaurants -> restaurants.size == 3 }
         testObserver.assertValue { restaurants -> restaurants[0].id.equals("id1") }
@@ -64,10 +64,10 @@ class RestaurantUiModelModelDaoTest {
     fun getByParentId_nonEmptyListThenInsert_returnNonEmptyListHavingTheSameParentId() {
         // arrange
         // act
-        val testObserver: TestObserver<List<RestaurantModel>> = SUT.getByParentId("0").test()
-        SUT.insert(RestaurantModel("id6", "0", "name6",  "image_url",
+        val testObserver: TestObserver<List<RestaurantData>> = SUT.getByParentId("0").test()
+        SUT.insert(RestaurantData("id6", "0", "name6",  "image_url",
             "1", "1970-01-01 00:00:03"))
-        SUT.insert(RestaurantModel("id7", "0", "name7",  "image_url",
+        SUT.insert(RestaurantData("id7", "0", "name7",  "image_url",
             "1", "1970-01-01 00:00:03"))
 
         // assert
@@ -94,7 +94,7 @@ class RestaurantUiModelModelDaoTest {
     fun checkExists_existingRestaurant_returnTrue() {
         // arrange
         // act
-        val isExists: Boolean =  SUT.checkExists(RESTAURANT_MODELS[0])
+        val isExists: Boolean =  SUT.checkExists(RESTAURANT_DATA[0])
         // assert
         assertTrue(isExists)
     }
@@ -102,7 +102,7 @@ class RestaurantUiModelModelDaoTest {
     @Test
     fun checkExists_nonExistingRestaurant_returnFalse() {
         // arrange
-        val restaurant = RestaurantModel("id5", "0", "name5",
+        val restaurant = RestaurantData("id5", "0", "name5",
                 "image_url", "1", "1970-01-01 00:00:03")
         // act
         val isExists: Boolean =  SUT.checkExists(restaurant)
@@ -113,25 +113,25 @@ class RestaurantUiModelModelDaoTest {
     @Test
     fun upsert_nonExistingRestaurant_insertIsCalledAndUpdateNotCalled() {
         // arrange
-        val restaurant = RestaurantModel("id8", "0", "name8",
+        val restaurant = RestaurantData("id8", "0", "name8",
                 "image_url", "1", "1970-01-01 00:00:03")
         // act
         SUT.upsert(restaurant)
         // assert
         verify(SUT).insert(restaurant)
-        verify(SUT, never()).update(any<RestaurantModel>())
+        verify(SUT, never()).update(any<RestaurantData>())
     }
 
     @Test
     fun upsert_existingRestaurant_updateIsCalledAndInsertNotCalled() {
         // arrange
-        val restaurant = RestaurantModel("id3", "0", "name3",
+        val restaurant = RestaurantData("id3", "0", "name3",
                 "image_url", "1", "1970-01-01 00:00:03")
         // act
         SUT.upsert(restaurant)
         // assert
         verify(SUT).update(restaurant)
-        verify(SUT, never()).insert(any<RestaurantModel>())
+        verify(SUT, never()).insert(any<RestaurantData>())
     }
 
 }

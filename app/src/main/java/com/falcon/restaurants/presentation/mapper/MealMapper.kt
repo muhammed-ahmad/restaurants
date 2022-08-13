@@ -20,10 +20,6 @@ class MealMapper @Inject constructor() : DomainToPresentationMapper <Meal, MealU
     }
 
     override fun toPresentationList (models: List<Meal>): List<MealUiModel> {
-        val list: ArrayList<MealUiModel> = ArrayList()
-        for (model in models) {
-            list.add(toPresentation(model))
-        }
-        return list
+        return models.map { toPresentation(it) }
     }
 }

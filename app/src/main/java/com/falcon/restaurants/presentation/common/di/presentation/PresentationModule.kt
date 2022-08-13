@@ -5,23 +5,27 @@ import androidx.lifecycle.ViewModelProviders
 import com.falcon.models.presentation.mapper.RestaurantMapper
 import com.falcon.restaurants.data.mapper.MealDataMapper
 import com.falcon.restaurants.data.mapper.RestaurantDataMapper
-import com.falcon.restaurants.data.network.RetrofitInterface
+import com.falcon.restaurants.data.net.RetrofitInterface
 import com.falcon.restaurants.data.repository.MealRepositoryImpl
 import com.falcon.restaurants.data.repository.RestaurantRepositoryImpl
-import com.falcon.restaurants.data.room.RoomDB
-import com.falcon.restaurants.data.room.meal.MealDataDao
-import com.falcon.restaurants.data.room.restaurant.RestaurantDataDao
-import com.falcon.restaurants.domain.interactor.FetchMealsUseCase
-import com.falcon.restaurants.domain.interactor.FetchRestaurantsUseCase
+import com.falcon.restaurants.data.db.RoomDB
+import com.falcon.restaurants.data.db.dao.MealDataDao
+import com.falcon.restaurants.data.db.dao.RestaurantDataDao
+import com.falcon.restaurants.domain.interactor.meal.FetchAndUpsertMealUseCase
+import com.falcon.restaurants.domain.interactor.meal.GetMealByIdUseCase
+import com.falcon.restaurants.domain.interactor.meal.GetMealsByRestaurantIdUseCase
+import com.falcon.restaurants.domain.interactor.restaurant.FetchAndUpsertRestaurantsUseCase
+import com.falcon.restaurants.domain.interactor.restaurant.GetRestaurantsByParentIdUseCase
+import com.falcon.restaurants.domain.interactor.restaurant.IsRestaurantHasChildrenUseCase
 import com.falcon.restaurants.domain.repository.MealRepository
 import com.falcon.restaurants.domain.repository.RestaurantRepository
 import com.falcon.restaurants.presentation.mapper.MealMapper
-import com.falcon.restaurants.presentation.screens.meal.MealViewModel
-import com.falcon.restaurants.presentation.screens.meal.MealViewModelFactory
-import com.falcon.restaurants.presentation.screens.restaurant.RestaurantViewModel
-import com.falcon.restaurants.presentation.screens.restaurant.RestaurantViewModelFactory
-import com.falcon.restaurants.presentation.screens.splash.SplashViewModel
-import com.falcon.restaurants.presentation.screens.splash.SplashViewModelFactory
+import com.falcon.restaurants.presentation.view.meal.MealViewModel
+import com.falcon.restaurants.presentation.view.meal.MealViewModelFactory
+import com.falcon.restaurants.presentation.view.restaurant.RestaurantViewModel
+import com.falcon.restaurants.presentation.view.restaurant.RestaurantViewModelFactory
+import com.falcon.restaurants.presentation.view.splash.SplashViewModel
+import com.falcon.restaurants.presentation.view.splash.SplashViewModelFactory
 import dagger.Module
 import dagger.Provides
 
@@ -59,26 +63,40 @@ class PresentationModule {
     @Provides
     fun getRestaurantViewModel(fragmentActivity: AppCompatActivity,
                                application: Application,
-                               fetchRestaurantsUseCase: FetchRestaurantsUseCase,
+                               fetchAndUpsertRestaurantsUseCase: FetchAndUpsertRestaurantsUseCase,
+                               getRestaurantsByParentIdUseCase: GetRestaurantsByParentIdUseCase,
+                               isRestaurantHasChildrenUseCase: IsRestaurantHasChildrenUseCase,
                                restaurantMapper: RestaurantMapper
                                ): RestaurantViewModel{
 
         return ViewModelProviders.of(
                 fragmentActivity,
-                RestaurantViewModelFactory(application, fetchRestaurantsUseCase, restaurantMapper)
+                RestaurantViewModelFactory(
+                    application,
+                    fetchAndUpsertRestaurantsUseCase,
+                    getRestaurantsByParentIdUseCase,
+                    isRestaurantHasChildrenUseCase,
+                    restaurantMapper)
         ).get(RestaurantViewModel::class.java)
     }
 
     @Provides
     fun getMealViewModel(fragmentActivity: AppCompatActivity,
                          application: Application,
-                         fetchMealsUseCase: FetchMealsUseCase,
+                         fetchAndUpsertMealUseCase: FetchAndUpsertMealUseCase,
+                         getMealsByRestaurantIdUseCase: GetMealsByRestaurantIdUseCase,
+                         getMealByIdUseCase: GetMealByIdUseCase,
                          mealMapper: MealMapper
                          ): MealViewModel{
 
         return ViewModelProviders.of(
                 fragmentActivity,
-                MealViewModelFactory(application, fetchMealsUseCase, mealMapper)
+                MealViewModelFactory(
+                    application,
+                    fetchAndUpsertMealUseCase,
+                    getMealsByRestaurantIdUseCase,
+                    getMealByIdUseCase,
+                    mealMapper)
         ).get(MealViewModel::class.java)
     }
 

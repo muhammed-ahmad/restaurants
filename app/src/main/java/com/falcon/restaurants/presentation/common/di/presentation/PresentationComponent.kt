@@ -1,8 +1,8 @@
 package com.falcon.restaurants.presentation.common.di.presentation
-import com.falcon.restaurants.presentation.screens.restaurant.RestaurantsActivity
-import com.falcon.restaurants.presentation.screens.meal.MealsActivity
-import com.falcon.restaurants.presentation.screens.mealdetail.MealDetailsActivity
-import com.falcon.restaurants.presentation.screens.splash.SplashActivity
+import com.falcon.restaurants.presentation.view.restaurant.RestaurantsActivity
+import com.falcon.restaurants.presentation.view.meal.MealsActivity
+import com.falcon.restaurants.presentation.view.mealdetail.MealDetailsActivity
+import com.falcon.restaurants.presentation.view.splash.SplashActivity
 import dagger.Subcomponent
 
 @PresentationScope

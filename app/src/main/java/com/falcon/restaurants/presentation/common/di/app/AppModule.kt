@@ -1,8 +1,8 @@
 package com.falcon.restaurants.presentation.common.di.app
 import android.app.Application
-import com.falcon.restaurants.data.network.RetrofitInterface
-import com.falcon.restaurants.data.room.RoomDB
-import com.falcon.restaurants.domain.utils.Constants
+import com.falcon.restaurants.data.net.RetrofitInterface
+import com.falcon.restaurants.data.db.RoomDB
+import com.falcon.restaurants.data.net.Constants
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module

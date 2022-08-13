@@ -1,6 +1,5 @@
 package com.falcon.restaurants.domain.repository
 
-import com.falcon.restaurants.data.network.restaurant.RestaurantDto
 import com.falcon.restaurants.domain.model.Restaurant
 import io.reactivex.Completable
 import io.reactivex.Observable

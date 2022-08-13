@@ -1,6 +1,6 @@
 package com.falcon.restaurants.testdata
 
-import com.falcon.restaurants.data.room.restaurant.RestaurantData
+import com.falcon.restaurants.data.db.model.RestaurantData
 
 object RestaurantTestDataInstrument {
 

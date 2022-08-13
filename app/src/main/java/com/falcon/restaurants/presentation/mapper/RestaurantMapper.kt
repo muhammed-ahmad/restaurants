@@ -20,10 +20,6 @@ class RestaurantMapper @Inject constructor() :
     }
 
     override fun toPresentationList (models: List<Restaurant>): List<RestaurantUiModel> {
-        val list: ArrayList<RestaurantUiModel> = ArrayList()
-        for (model in models) {
-            list.add(toPresentation(model))
-        }
-        return list
+        return models.map { toPresentation(it) }
     }
 }

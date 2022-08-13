@@ -1,8 +1,8 @@
 package com.falcon.restaurants.data.repository
 import android.annotation.SuppressLint
 import com.falcon.restaurants.data.mapper.MealDataMapper
-import com.falcon.restaurants.data.network.RetrofitInterface
-import com.falcon.restaurants.data.room.meal.MealDataDao
+import com.falcon.restaurants.data.net.RetrofitInterface
+import com.falcon.restaurants.data.db.dao.MealDataDao
 import com.falcon.restaurants.domain.model.Meal
 import com.falcon.restaurants.domain.repository.MealRepository
 import io.reactivex.Completable

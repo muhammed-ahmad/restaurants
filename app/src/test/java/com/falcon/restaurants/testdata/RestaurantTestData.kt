@@ -1,6 +1,6 @@
 package com.falcon.restaurants.testdata
 
-import com.falcon.restaurants.data.network.restaurant.RestaurantDto
+import com.falcon.restaurants.data.net.model.RestaurantDto
 
 object RestaurantTestData {
 

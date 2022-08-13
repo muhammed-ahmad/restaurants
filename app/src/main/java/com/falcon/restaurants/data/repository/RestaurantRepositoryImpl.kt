@@ -2,10 +2,8 @@ package com.falcon.restaurants.data.repository
 
 import android.annotation.SuppressLint
 import com.falcon.restaurants.data.mapper.RestaurantDataMapper
-import com.falcon.restaurants.data.network.RetrofitInterface
-import com.falcon.restaurants.data.network.restaurant.RestaurantDto
-import com.falcon.restaurants.data.room.restaurant.RestaurantData
-import com.falcon.restaurants.data.room.restaurant.RestaurantDataDao
+import com.falcon.restaurants.data.net.RetrofitInterface
+import com.falcon.restaurants.data.db.dao.RestaurantDataDao
 import com.falcon.restaurants.domain.model.Restaurant
 import com.falcon.restaurants.domain.repository.RestaurantRepository
 import io.reactivex.Completable

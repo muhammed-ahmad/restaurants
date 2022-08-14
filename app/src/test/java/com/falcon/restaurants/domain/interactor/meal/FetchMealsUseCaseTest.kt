@@ -9,7 +9,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
+import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
@@ -27,7 +27,7 @@ class FetchMealsUseCaseTest{
     @Test
     fun execute_withNonEmptyListInRepo_returnNonEmptyList(){
         // arrange
-        `when`(mealRepository.fetchMeals()).thenReturn(Single.just(MEALS))
+        Mockito.`when`(mealRepository.fetchMeals()).thenReturn(Single.just(MEALS))
         // act
         val testObserver: TestObserver<List<Meal>> = SUT.execute().test()
         // assert
@@ -39,7 +39,7 @@ class FetchMealsUseCaseTest{
     fun execute_withEmptyListInRepo_returnEmptyList(){
         // arrange
         val meals: MutableList<Meal> = mutableListOf()
-        `when`(mealRepository.fetchMeals()).thenReturn(Single.just(meals))
+        Mockito.`when`(mealRepository.fetchMeals()).thenReturn(Single.just(meals))
         // act
         val testObserver: TestObserver<List<Meal>> = SUT.execute().test()
         // assert

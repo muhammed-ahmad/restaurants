@@ -8,8 +8,8 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class FetchAndUpsertRestaurantsUseCase @Inject constructor(
-    private val fetchRestaurantsUseCase: FetchRestaurantsUseCase,
-    private val upsertRestaurantsUseCase: UpsertRestaurantsUseCase
+        private val fetchRestaurantsUseCase: FetchRestaurantsUseCase,
+        private val upsertRestaurantsUseCase: UpsertRestaurantsUseCase
     ){
 
     fun execute(): Completable {

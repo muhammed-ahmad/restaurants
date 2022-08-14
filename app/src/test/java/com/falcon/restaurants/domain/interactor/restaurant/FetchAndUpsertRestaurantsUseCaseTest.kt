@@ -1,17 +1,20 @@
-//package com.falcon.restaurants.presentation.view.restaurant
+//package com.falcon.restaurants.domain.interactor.restaurant
 //
-//import com.falcon.restaurants.data.net.RetrofitInterface
-//import com.falcon.restaurants.data.net.model.RestaurantDto
-//import com.falcon.restaurants.data.db.model.RestaurantData
 //import com.falcon.restaurants.data.db.dao.RestaurantDataDao
-//import com.falcon.restaurants.domain.interactor.restaurant.FetchAndUpsertRestaurantsUseCase
+//import com.falcon.restaurants.data.db.model.RestaurantData
+//import com.falcon.restaurants.data.net.RetrofitInterface
+//import com.falcon.restaurants.domain.interactor.DomainTestData
+//import com.falcon.restaurants.domain.model.Restaurant
+//import com.falcon.restaurants.domain.repository.MealRepository
+//import com.falcon.restaurants.domain.repository.RestaurantRepository
 //import com.falcon.restaurants.testdata.RestaurantTestData
 //import io.reactivex.observers.TestObserver
+//import org.junit.Assert.*
 //import org.junit.Before
 //import org.junit.Test
 //import org.junit.runner.RunWith
 //import org.mockito.Mock
-//import org.mockito.Mockito.`when`
+//import org.mockito.Mockito
 //import org.mockito.junit.MockitoJUnitRunner
 //import org.mockito.kotlin.any
 //import org.mockito.kotlin.never
@@ -21,30 +24,27 @@
 //@RunWith(MockitoJUnitRunner::class)
 //class FetchAndUpsertRestaurantsUseCaseTest {
 //
-//    val RESTAURANTNETS: MutableList<RestaurantDto> = RestaurantTestData.createRestaurantNets()
 //    lateinit var SUT: FetchAndUpsertRestaurantsUseCase
-//
-//    lateinit var fetchRestaurantsEndPointTd: FetchRestaurantsEndPointTd
-//    @Mock lateinit var restaurantDataDaoMock: RestaurantDataDao
-//    @Mock lateinit var retrofitInterfaceMock: RetrofitInterface
+//    @Mock lateinit var fetchRestaurantsUseCase: FetchRestaurantsUseCase
+//    @Mock lateinit var upsertRestaurantsUseCase: UpsertRestaurantsUseCase
+//    val RESTAURANTNETS: MutableList<Restaurant> = DomainTestData.createRestaurants()
 //
 //    @Before
 //    fun setUp(){
-//        fetchRestaurantsEndPointTd = FetchRestaurantsEndPointTd(retrofitInterfaceMock)
 //        SUT = FetchAndUpsertRestaurantsUseCase(
-//                restaurantDataDaoMock,
-//                fetchRestaurantsEndPointTd
+//            fetchRestaurantsUseCase,
+//            upsertRestaurantsUseCase
 //        )
-//        `when`(restaurantDataDaoMock.getMaxUpdated()).thenReturn("1970-01-01 00:00:01")
 //    }
 //
 //    // fetch on success then upsert is called with the correct data and Observable emits upsert_completed
 //    @Test
 //    fun fetch_success_upsertWithTheCorrectData() {
+//
 //        // Arrange
 //        success()
 //        // act
-//        val testObserver: TestObserver<String> = SUT.execute().test()
+//        val testObserver: TestObserver<Void> = SUT.execute().test()
 //        // assert
 //        verify(restaurantDataDaoMock, times(3)).upsert(any<RestaurantData>())
 //        testObserver.assertValue{ string -> string.equals("upsert_completed") }

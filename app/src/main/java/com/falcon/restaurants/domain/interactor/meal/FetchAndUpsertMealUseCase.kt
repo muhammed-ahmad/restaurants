@@ -5,11 +5,19 @@ import io.reactivex.Completable
 import javax.inject.Inject
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 
 class FetchAndUpsertMealUseCase @Inject constructor (
-    private val mealRepository : MealRepository
+        private val fetchMealsUseCase: FetchMealsUseCase,
+        private val upsertMealsUseCase: UpsertMealsUseCase
     ) {
 
-    fun execute(): Completable = mealRepository.fetchAndUpsert()
+    fun execute(): Completable {
+        return Completable.defer {
+            fetchMealsUseCase.execute().flatMapCompletable {
+                    meals -> upsertMealsUseCase.execute(meals)
+            }
+        }
+    }
 
 }

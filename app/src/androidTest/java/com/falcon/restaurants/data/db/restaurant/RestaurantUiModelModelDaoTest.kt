@@ -55,7 +55,7 @@ class RestaurantUiModelModelDaoTest {
     fun getByParentId_nonEmptyList_returnNonEmptyListHavingTheSameParentId() {
         // arrange
         // act
-        val testObserver: TestObserver<List<RestaurantData>> = SUT.getByParentId("0").test()
+        val testObserver: TestObserver<List<RestaurantData>> = SUT.getRestaurants("0").test()
         // assert
         testObserver.assertValue { restaurants -> restaurants.size == 3 }
         testObserver.assertValue { restaurants -> restaurants[0].id.equals("id1") }
@@ -66,7 +66,7 @@ class RestaurantUiModelModelDaoTest {
     fun getByParentId_nonEmptyListThenInsert_returnNonEmptyListHavingTheSameParentId() {
         // arrange
         // act
-        val testObserver: TestObserver<List<RestaurantData>> = SUT.getByParentId("0").test()
+        val testObserver: TestObserver<List<RestaurantData>> = SUT.getRestaurants("0").test()
         SUT.insert(
             RestaurantData("id6", "0", "name6",  "image_url",
             "1", "1970-01-01 00:00:03")

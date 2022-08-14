@@ -5,14 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.falcon.models.presentation.mapper.RestaurantMapper
 import com.falcon.restaurants.domain.interactor.restaurant.FetchAndUpsertRestaurantsUseCase
-import com.falcon.restaurants.domain.interactor.restaurant.GetRestaurantsByParentIdUseCase
-import com.falcon.restaurants.domain.interactor.restaurant.IsRestaurantHasChildrenUseCase
+import com.falcon.restaurants.domain.interactor.restaurant.GetRestaurantsUseCase
 
 class RestaurantViewModelFactory(
     var application: Application,
     var fetchAndUpsertRestaurantsUseCase: FetchAndUpsertRestaurantsUseCase,
-    val getRestaurantsByParentIdUseCase: GetRestaurantsByParentIdUseCase,
-    val isRestaurantHasChildrenUseCase: IsRestaurantHasChildrenUseCase,
+    val getRestaurantsUseCase: GetRestaurantsUseCase,
     var restaurantMapper: RestaurantMapper
 
 ) : ViewModelProvider.Factory {
@@ -20,8 +18,7 @@ class RestaurantViewModelFactory(
         return RestaurantViewModel(
             application,
             fetchAndUpsertRestaurantsUseCase,
-            getRestaurantsByParentIdUseCase,
-            isRestaurantHasChildrenUseCase,
+            getRestaurantsUseCase,
             restaurantMapper
         ) as T
     }

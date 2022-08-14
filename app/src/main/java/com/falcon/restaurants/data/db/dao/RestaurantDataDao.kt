@@ -8,12 +8,8 @@ import io.reactivex.Single
 @Dao
 abstract class RestaurantDataDao : BaseDao<RestaurantData>() {
 
-    @Query("SELECT * from RestaurantData WHERE parentId=:parent_idV and active=1 ORDER BY name ASC")
-    abstract fun getByParentId(parent_idV: String): Observable<List<RestaurantData>>
-
-    // check has children
-    @Query("SELECT EXISTS(SELECT * FROM RestaurantData WHERE parentId = :id)")
-    abstract fun hasChildren(id: String): Single<Boolean>
+    @Query("SELECT * from RestaurantData WHERE active=1 ORDER BY name ASC")
+    abstract fun getRestaurants(): Observable<List<RestaurantData>>
 
     // getMaxUpdated
     @Query("SELECT MAX(updatedAt) from RestaurantData WHERE active=1")

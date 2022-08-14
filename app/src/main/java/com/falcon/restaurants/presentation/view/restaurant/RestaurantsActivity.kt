@@ -18,7 +18,6 @@ import javax.inject.Inject
 class RestaurantsActivity : BaseActivity() {
 
     val TAG: String = "RestaurantsActivity"
-    var parentId: String = "0"
     lateinit var adapter: RestaurantsListAdapter
     lateinit var binding: ActivityRestaurantsBinding
 
@@ -30,14 +29,10 @@ class RestaurantsActivity : BaseActivity() {
 
     companion object {
         const val PARENT_ID: String = "PARENT_ID"
-        fun start(fromActivity: AppCompatActivity, restaurantId: String)
+        fun start(fromActivity: AppCompatActivity)
         {
             val intent = Intent(fromActivity, RestaurantsActivity::class.java)
-            intent.putExtra(PARENT_ID, restaurantId)
             fromActivity.startActivity(intent)
-            if (restaurantId.equals("0")) {
-                fromActivity.finish()
-            }
         }
     }
 
@@ -53,44 +48,22 @@ class RestaurantsActivity : BaseActivity() {
                 layoutInflator,
                 imageLoader)
 
-        adapter.onRestaurantItemClicked = { restaurantId -> launchProperActivity(restaurantId) }
+        adapter.onRestaurantItemClicked = { restaurantId -> screensNavigator.toMealsActivity(restaurantId) }
 
         binding.recyclerview.adapter = adapter
         binding.recyclerview.layoutManager = LinearLayoutManager(this)
-
-        if(intent.hasExtra(PARENT_ID)){
-            parentId = intent.getStringExtra(PARENT_ID)!!
-        }
-        Logger.log( TAG,"onCreate: parentId: " + parentId)
 
         setAdapterList()
     }
 
     fun setAdapterList(){
-        restaurantViewModel.getByParentId(parentId).observe(
+        restaurantViewModel.getRestaurants().observe(
             this,
                    { restaurants ->
                             Logger.log(TAG, "setAdapterList: called")
                             adapter.setList(restaurants)
                     }
         )
-    }
-
-    fun launchProperActivity(restaurantId: String) {
-        restaurantViewModel.hasChildren(restaurantId, object : RestaurantViewModel.HasChildrenListener{
-
-            override fun onSuccess(hasChildren: Boolean) {
-                Logger.log( TAG, "onSuccess: hasChildren: $hasChildren")
-                if(hasChildren){
-                    screensNavigator.toRestaurantsActivity(restaurantId)
-                }else {
-                    screensNavigator.toMealsActivity(restaurantId)
-                }
-            }
-            override fun onFailed() {
-                Logger.log( TAG, "onFailed: ")
-            }
-        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

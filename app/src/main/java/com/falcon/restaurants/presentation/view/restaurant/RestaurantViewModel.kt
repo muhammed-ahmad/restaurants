@@ -7,8 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.falcon.models.presentation.mapper.RestaurantMapper
 import com.falcon.restaurants.domain.interactor.restaurant.FetchAndUpsertRestaurantsUseCase
-import com.falcon.restaurants.domain.interactor.restaurant.GetRestaurantsByParentIdUseCase
-import com.falcon.restaurants.domain.interactor.restaurant.IsRestaurantHasChildrenUseCase
+import com.falcon.restaurants.domain.interactor.restaurant.GetRestaurantsUseCase
 import com.falcon.restaurants.domain.util.Logger
 import com.falcon.restaurants.presentation.model.RestaurantUiModel
 import io.reactivex.Completable
@@ -18,8 +17,7 @@ import io.reactivex.schedulers.Schedulers
 class RestaurantViewModel(
     val application: Application,
     val fetchAndUpsertRestaurantsUseCase: FetchAndUpsertRestaurantsUseCase,
-    val getRestaurantsByParentIdUseCase: GetRestaurantsByParentIdUseCase,
-    val isRestaurantHasChildrenUseCase: IsRestaurantHasChildrenUseCase,
+    val getRestaurantsUseCase: GetRestaurantsUseCase,
     var restaurantMapper: RestaurantMapper
 
     ) : ViewModel() {
@@ -27,20 +25,16 @@ class RestaurantViewModel(
     val TAG: String = "RestaurantViewModel"
     lateinit var restaurantsMutableLiveData: MutableLiveData<List<RestaurantUiModel>>
 
-    interface HasChildrenListener{
-        fun onSuccess(b: Boolean)
-        fun onFailed()
-    }
 
-    fun fetchAndUpsert(): Completable = fetchAndUpsertRestaurantsUseCase.execute()
+    fun fetchAndUpsert(): Completable = fetchAndUpsertRestaurantsUseCase.execute().subscribeOn(Schedulers.io())
 
     @SuppressLint("CheckResult")
-    fun getByParentId(restaurantId: String): LiveData<List<RestaurantUiModel>> {
+    fun getRestaurants(): LiveData<List<RestaurantUiModel>> {
 
         if (!::restaurantsMutableLiveData.isInitialized) {
             restaurantsMutableLiveData = MutableLiveData<List<RestaurantUiModel>>()
 
-            getRestaurantsByParentIdUseCase.execute(restaurantId)
+            getRestaurantsUseCase.execute()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe( { restaurants -> Logger.log( TAG, "onNext: ")
@@ -52,17 +46,6 @@ class RestaurantViewModel(
 
         }
         return restaurantsMutableLiveData
-    }
-
-    @SuppressLint("CheckResult")
-    fun hasChildren(id: String, listener: HasChildrenListener) {
-
-        isRestaurantHasChildrenUseCase.execute(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe( { hasChildren -> listener.onSuccess(hasChildren) },
-                            { throwable -> listener.onFailed() })
-
     }
 
 }

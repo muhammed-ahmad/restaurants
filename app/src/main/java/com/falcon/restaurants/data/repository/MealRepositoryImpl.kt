@@ -20,21 +20,6 @@ class MealRepositoryImpl @Inject constructor (
 
     val TAG: String = "MealRepositoryImpl"
 
-    @SuppressLint("CheckResult")
-    override fun fetchAndUpsert(): Completable {
-
-        return Completable.defer {
-            val maxUpdatedAt: String = mealDataDao.getMaxUpdated()
-            // this is for test
-            //val maxUpdatedAt: String = "1970-01-01 00:00:01"
-            retrofitInterface.getMealDtos(maxUpdatedAt)
-                             .flatMapCompletable {
-                                     mealDtos -> upsert(mealDataMapper.dtoToDomainList(mealDtos))
-                             }
-        }.subscribeOn(Schedulers.io())
-
-    }
-
     override fun getMealsByRestaurantId(typeIdV: String): Observable<List<Meal>> {
         return mealDataDao.getMealsByRestaurantId(typeIdV).map {
              mealModels -> mealDataMapper.dataToDomainList(mealModels)
@@ -54,5 +39,14 @@ class MealRepositoryImpl @Inject constructor (
     override fun upsert(meals: List<Meal>) : Completable{
         return  Completable.fromAction { meals.map { upsert(it) }}
     }
+
+    override fun fetchMeals(): Single<List<Meal>> {
+        val maxUpdatedAt: String = mealDataDao.getMaxUpdated()
+        // may use this for test: val maxUpdatedAt: String = "1970-01-01 00:00:01"
+        return retrofitInterface.getMealDtos(maxUpdatedAt).map {
+                mealDtos -> mealDataMapper.dtoToDomainList(mealDtos)
+        }
+    }
+
 
 }

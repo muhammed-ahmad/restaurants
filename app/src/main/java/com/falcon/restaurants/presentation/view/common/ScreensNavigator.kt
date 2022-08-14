@@ -9,8 +9,8 @@ import javax.inject.Inject
 @ActivityScope
 class ScreensNavigator @Inject constructor( val fromActivity: AppCompatActivity){
 
-    fun toRestaurantsActivity(restaurantId: String){
-        RestaurantsActivity.start(fromActivity, restaurantId)
+    fun toRestaurantsActivity(){
+        RestaurantsActivity.start(fromActivity)
     }
 
     fun toMealsActivity(restaurantId: String) {

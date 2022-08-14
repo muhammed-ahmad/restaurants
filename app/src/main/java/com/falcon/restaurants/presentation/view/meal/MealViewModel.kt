@@ -31,7 +31,7 @@ class MealViewModel (
         fun onFailed(throwable: Throwable)
     }
 
-    fun fetchAndUpsert() : Completable = fetchAndUpsertMealUseCase.execute()
+    fun fetchAndUpsert() : Completable = fetchAndUpsertMealUseCase.execute().subscribeOn(Schedulers.io())
 
     @SuppressLint("CheckResult")
     fun getByRestaurantId(restaurantId: String) : LiveData<List<MealUiModel>> {

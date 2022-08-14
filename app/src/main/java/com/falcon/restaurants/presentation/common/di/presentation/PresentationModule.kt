@@ -15,8 +15,7 @@ import com.falcon.restaurants.domain.interactor.meal.FetchAndUpsertMealUseCase
 import com.falcon.restaurants.domain.interactor.meal.GetMealByIdUseCase
 import com.falcon.restaurants.domain.interactor.meal.GetMealsByRestaurantIdUseCase
 import com.falcon.restaurants.domain.interactor.restaurant.FetchAndUpsertRestaurantsUseCase
-import com.falcon.restaurants.domain.interactor.restaurant.GetRestaurantsByParentIdUseCase
-import com.falcon.restaurants.domain.interactor.restaurant.IsRestaurantHasChildrenUseCase
+import com.falcon.restaurants.domain.interactor.restaurant.GetRestaurantsUseCase
 import com.falcon.restaurants.domain.repository.MealRepository
 import com.falcon.restaurants.domain.repository.RestaurantRepository
 import com.falcon.restaurants.presentation.mapper.MealMapper
@@ -64,8 +63,7 @@ class PresentationModule {
     fun getRestaurantViewModel(fragmentActivity: AppCompatActivity,
                                application: Application,
                                fetchAndUpsertRestaurantsUseCase: FetchAndUpsertRestaurantsUseCase,
-                               getRestaurantsByParentIdUseCase: GetRestaurantsByParentIdUseCase,
-                               isRestaurantHasChildrenUseCase: IsRestaurantHasChildrenUseCase,
+                               getRestaurantsUseCase: GetRestaurantsUseCase,
                                restaurantMapper: RestaurantMapper
                                ): RestaurantViewModel{
 
@@ -74,8 +72,7 @@ class PresentationModule {
                 RestaurantViewModelFactory(
                     application,
                     fetchAndUpsertRestaurantsUseCase,
-                    getRestaurantsByParentIdUseCase,
-                    isRestaurantHasChildrenUseCase,
+                    getRestaurantsUseCase,
                     restaurantMapper)
         ).get(RestaurantViewModel::class.java)
     }

@@ -22,26 +22,10 @@ class RestaurantRepositoryImpl @Inject constructor(
 
     val TAG: String = "RestaurantRepositoryImpl"
 
-    @SuppressLint("CheckResult")
-    override fun fetchAndUpsert(): Completable {
-
-        return Completable.defer {
-            val maxUpdatedAt: String = restaurantDataDao.getMaxUpdated()
-            // this is for test
-            //val maxUpdatedAt: String = "1970-01-01 00:00:01"
-            retrofitInterface.getRestaurantDtos(maxUpdatedAt)
-                             .flatMapCompletable {
-                                     restaurantDtos -> upsert(restaurantDataMapper.dtoToDomainList(restaurantDtos))
-                             }
-        }.subscribeOn(Schedulers.io())
-    }
-
-    override fun getByParentId(parent_id: String): Observable<List<Restaurant>> =
-        restaurantDataDao.getByParentId(parent_id).map {
+    override fun getRestaurants(): Observable<List<Restaurant>> =
+        restaurantDataDao.getRestaurants().map {
             restaurantModels -> restaurantDataMapper.dataToDomainList(restaurantModels)
         }
-
-    override fun hasChildren(id: String): Single<Boolean> = restaurantDataDao.hasChildren(id)
 
     override fun upsert(restaurant: Restaurant): Long = restaurantDataDao.upsert(
         restaurantDataMapper.domainToData(restaurant)
@@ -49,6 +33,14 @@ class RestaurantRepositoryImpl @Inject constructor(
 
     override fun upsert(restaurants: List<Restaurant>): Completable {
         return Completable.fromAction { restaurants.map { upsert(it) }
+        }
+    }
+
+    override fun fetchRestaurants(): Single<List<Restaurant>> {
+        val maxUpdatedAt: String = restaurantDataDao.getMaxUpdated()
+        // may use this for test: val maxUpdatedAt: String = "1970-01-01 00:00:01"
+        return retrofitInterface.getRestaurantDtos(maxUpdatedAt).map {
+                restaurantDtos -> restaurantDataMapper.dtoToDomainList(restaurantDtos)
         }
     }
 

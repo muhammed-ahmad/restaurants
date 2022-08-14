@@ -36,7 +36,7 @@ class SplashActivity : BaseActivity() {
                 Logger.log( TAG,"onSuccess: ")
                 //binding.progressBar.setProgress(100)
                 //binding.progressBar.setVisibility(View.INVISIBLE)
-                screensNavigator.toRestaurantsActivity("0")
+                screensNavigator.toRestaurantsActivity()
             }
 
             override fun onFailed(e: Throwable) {

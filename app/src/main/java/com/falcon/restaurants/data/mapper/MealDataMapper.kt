@@ -20,6 +20,10 @@ class MealDataMapper @Inject constructor() {
         )
     }
 
+    fun dataToDomainList (models: List<MealData>): List<Meal> {
+        return models.map { dataToDomain(it) }
+    }
+
     fun domainToData(model: Meal): MealData {
         return MealData(
             id = model.id,
@@ -31,11 +35,6 @@ class MealDataMapper @Inject constructor() {
             active = model.active,
             favorite = model.favorite
         )
-    }
-
-
-    fun dataToDomainList (models: List<MealData>): List<Meal> {
-        return models.map { dataToDomain(it) }
     }
 
     fun dtoToDomain(model: MealDto): Meal {
@@ -55,20 +54,4 @@ class MealDataMapper @Inject constructor() {
         return models.map { dtoToDomain(it) }
     }
 
-//    fun dtoToData(model: MealDto): MealData {
-//        return MealData(
-//            id = model.id,
-//            name = model.name,
-//            details = model.details,
-//            imageUrl = model.imageUrl,
-//            restaurantId = model.restaurantId,
-//            updatedAt = model.updatedAt,
-//            active = model.active,
-//            favorite = model.favorite
-//        )
-//    }
-//
-//    fun dtoToDataList (models: List<MealDto>): List<MealData> {
-//        return models.map { dtoToData(it) }
-//    }
 }

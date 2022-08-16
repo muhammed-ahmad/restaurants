@@ -21,7 +21,7 @@
 //@RunWith(MockitoJUnitRunner::class)
 //class FetchAndUpsertRestaurantsUseCaseTest {
 //
-//    val RESTAURANTNETS: MutableList<RestaurantDto> = RestaurantTestData.createRestaurantNets()
+//    val RESTAURANTNETS: MutableList<RestaurantDto> = PresentationTestData.createRestaurantNets()
 //    lateinit var SUT: FetchAndUpsertRestaurantsUseCase
 //
 //    lateinit var fetchRestaurantsEndPointTd: FetchRestaurantsEndPointTd

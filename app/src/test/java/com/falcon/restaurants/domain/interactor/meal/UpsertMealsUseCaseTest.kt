@@ -24,7 +24,7 @@ class UpsertMealsUseCaseTest{
     }
 
     @Test
-    fun execute_upsertListOfMeal_returnCompletable(){
+    fun execute_WhenUpsertListOfMeals_ReturnCompletable(){
         // arrange
         Mockito.`when`(mealRepository.upsert(MEALS)).thenReturn(Completable.complete())
         // act

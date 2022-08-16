@@ -24,7 +24,7 @@ class UpsertRestaurantsUseCaseTest{
     }
 
     @Test
-    fun execute_upsertListOfRestaurant_returnCompletable(){
+    fun execute_WhenUpsertListOfRestaurants_ReturnCompletable(){
         // arrange
         Mockito.`when`(restaurantRepository.upsert(RESTAURANTS)).thenReturn(Completable.complete())
         // act

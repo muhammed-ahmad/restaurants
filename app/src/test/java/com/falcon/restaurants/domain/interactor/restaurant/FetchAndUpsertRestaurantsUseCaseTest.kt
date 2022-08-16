@@ -29,7 +29,7 @@ class FetchAndUpsertRestaurantsUseCaseTest {
     }
 
     @Test
-    fun execute_fetchRestaurantsSuccess_upsertRestaurants() {
+    fun execute_WhenFetchRestaurantsSuccess_DoUpsertRestaurants() {
         // Arrange
         Mockito.`when`(fetchRestaurantsUseCase.execute()).thenReturn(Single.just(RESTAURANTNETS))
         Mockito.`when`(upsertRestaurantsUseCase.execute(RESTAURANTNETS)).thenReturn(Completable.complete())
@@ -41,14 +41,15 @@ class FetchAndUpsertRestaurantsUseCaseTest {
     }
 
     @Test
-    fun execute_fetchRestaurantsFailed_upsertRestaurantsNotCalled() {
+    fun execute_WhenFetchRestaurantsFail_DoNotCallUpsertRestaurants() {
         // Arrange
-        Mockito.`when`(fetchRestaurantsUseCase.execute()).thenReturn(null)
+        val throwable = Throwable("Fetch Failed")
+        Mockito.`when`(fetchRestaurantsUseCase.execute()).thenReturn(Single.error(throwable))
         // act
         val testObserver: TestObserver<Void> = SUT.execute().test()
         // assert
         testObserver.assertNotComplete()
-        testObserver.assertError(Throwable::class.java)
+        testObserver.assertError(throwable)
         Mockito.verify(upsertRestaurantsUseCase, Mockito.never()).execute(ArrayList())
     }
 

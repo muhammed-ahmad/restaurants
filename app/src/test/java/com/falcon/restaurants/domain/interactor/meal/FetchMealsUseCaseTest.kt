@@ -25,7 +25,7 @@ class FetchMealsUseCaseTest{
     }
 
     @Test
-    fun execute_withNonEmptyListInRepo_returnNonEmptyList(){
+    fun execute_WhenNonEmptyListInRepo_ReturnNonEmptyList(){
         // arrange
         Mockito.`when`(mealRepository.fetchMeals()).thenReturn(Single.just(MEALS))
         // act
@@ -36,7 +36,7 @@ class FetchMealsUseCaseTest{
     }
 
     @Test
-    fun execute_withEmptyListInRepo_returnEmptyList(){
+    fun execute_WhenEmptyListInRepo_ReturnEmptyList(){
         // arrange
         val meals: MutableList<Meal> = mutableListOf()
         Mockito.`when`(mealRepository.fetchMeals()).thenReturn(Single.just(meals))

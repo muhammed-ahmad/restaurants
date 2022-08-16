@@ -25,7 +25,7 @@ class GetRestaurantsUseCaseTest {
     }
 
     @Test
-    fun execute_withNonEmptyListInRepo_returnNonEmptyList(){
+    fun execute_WhenNonEmptyListInRepo_ReturnNonEmptyList(){
         // arrange
         Mockito.`when`(restaurantRepository.getRestaurants()).thenReturn(Observable.just(RESTAURANTS))
         // act
@@ -36,7 +36,7 @@ class GetRestaurantsUseCaseTest {
     }
 
     @Test
-    fun execute_withEmptyListInRepo_returnEmptyList(){
+    fun execute_WhenEmptyListInRepo_ReturnEmptyList(){
         // arrange
         val restaurants: MutableList<Restaurant> = mutableListOf()
         Mockito.`when`(restaurantRepository.getRestaurants()).thenReturn(Observable.just(restaurants))

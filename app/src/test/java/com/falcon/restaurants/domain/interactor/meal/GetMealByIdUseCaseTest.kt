@@ -26,7 +26,7 @@ class GetMealByIdUseCaseTest {
     }
 
     @Test
-    fun execute_WhenMealIdFound_ReturnsMealById(){
+    fun execute_WhenMealIdFound_ReturnMealById(){
         // arrange
         Mockito.`when`(mealRepository.getMealById(MEAL2.id)).thenReturn(Single.just(MEAL2))
         // act
@@ -38,7 +38,7 @@ class GetMealByIdUseCaseTest {
     }
 
     @Test
-    fun execute_WhenMealIdNotFound_ReturnsError(){
+    fun execute_WhenMealIdNotFound_ReturnError(){
         // arrange
         val notFoundId = "id1"
         val throwable = Throwable("Item Not Found")

@@ -24,7 +24,7 @@ class MealDataMapperTest {
     }
 
     @Test
-    fun dataToDomain_WithMealData_ReturnsMappedMeal(){
+    fun dataToDomain_WithMealData_ReturnMappedMeal(){
         // arrange
         // act
         val meal: Meal = SUT.dataToDomain(mealData1)
@@ -35,7 +35,7 @@ class MealDataMapperTest {
     }
 
     @Test
-    fun dataToDomainList_WithMealDataList_ReturnsMappedMealList(){
+    fun dataToDomainList_WithMealDataList_ReturnMappedMealList(){
         // arrange
         // act
         val meals: List<Meal> = SUT.dataToDomainList(mealDatas)
@@ -46,7 +46,7 @@ class MealDataMapperTest {
     }
 
     @Test
-    fun domainToData_WithMeal_ReturnsMappedMealData(){
+    fun domainToData_WithMeal_ReturnMappedMealData(){
         // arrange
         // act
         val mealData: MealData = SUT.domainToData(meal1)
@@ -57,7 +57,7 @@ class MealDataMapperTest {
     }
 
     @Test
-    fun dtoToDomain_WithMealDto_ReturnsMappedMeal(){
+    fun dtoToDomain_WithMealDto_ReturnMappedMeal(){
         // arrange
         // act
         val meal: Meal = SUT.dtoToDomain(mealDto1)
@@ -68,7 +68,7 @@ class MealDataMapperTest {
     }
 
     @Test
-    fun dtoToDomainList_WithMealDtoList_ReturnsMappedMealList(){
+    fun dtoToDomainList_WithMealDtoList_ReturnMappedMealList(){
         // arrange
         // act
         val meals: List<Meal> = SUT.dtoToDomainList(mealDtos)

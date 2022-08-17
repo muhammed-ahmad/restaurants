@@ -42,7 +42,7 @@ class MealRepositoryImplTest {
     }
 
     @Test
-    fun getMealsByRestaurantId_WhenRestaurantIdFound_ReturnsThisRestaurantMeals(){
+    fun getMealsByRestaurantId_WhenRestaurantIdFound_ReturnThisRestaurantMeals(){
         // arrange
         Mockito.`when`(mealDataDao.getMealsByRestaurantId(RESTAURANT2.id)).thenReturn(Observable.just(mealDatasOfTwo))
         // act
@@ -57,7 +57,7 @@ class MealRepositoryImplTest {
     }
 
     @Test
-    fun getMealsByRestaurantId_WhenRestaurantIdNotFound_ReturnsEmptyList(){
+    fun getMealsByRestaurantId_WhenRestaurantIdNotFound_ReturnEmptyList(){
         // arrange
         val notFoundId = "id1"
         val mealDatasEmpty = mutableListOf<MealData>()
@@ -71,7 +71,7 @@ class MealRepositoryImplTest {
     }
 
     @Test
-    fun getMealById_WhenMealIdFound_ReturnsMealById(){
+    fun getMealById_WhenMealIdFound_ReturnMealById(){
         // arrange
         Mockito.`when`(mealDataDao.getMealById(mealData2.id)).thenReturn(Single.just(mealData2))
         // act
@@ -85,7 +85,7 @@ class MealRepositoryImplTest {
     }
 
     @Test
-    fun getMealById_WhenMealIdNotFound_ReturnsError(){
+    fun getMealById_WhenMealIdNotFound_ReturnError(){
         // arrange
         val notFoundId = "id1"
         val throwable = Throwable("Item Not Found")

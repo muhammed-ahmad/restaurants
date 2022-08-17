@@ -24,7 +24,7 @@ class RestaurantDataMapperTest {
     }
 
     @Test
-    fun dataToDomain_WithRestaurantData_ReturnsMappedRestaurant(){
+    fun dataToDomain_WithRestaurantData_ReturnMappedRestaurant(){
         // arrange
         // act
         val restaurant: Restaurant = SUT.dataToDomain(restaurantData1)
@@ -35,7 +35,7 @@ class RestaurantDataMapperTest {
     }
 
     @Test
-    fun dataToDomainList_WithRestaurantDataList_ReturnsMappedRestaurantList(){
+    fun dataToDomainList_WithRestaurantDataList_ReturnMappedRestaurantList(){
         // arrange
         // act
         val restaurants: List<Restaurant> = SUT.dataToDomainList(restaurantDatas)
@@ -46,7 +46,7 @@ class RestaurantDataMapperTest {
     }
 
     @Test
-    fun domainToData_WithRestaurant_ReturnsMappedRestaurantData(){
+    fun domainToData_WithRestaurant_ReturnMappedRestaurantData(){
         // arrange
         // act
         val restaurantData: RestaurantData = SUT.domainToData(restaurant1)
@@ -57,7 +57,7 @@ class RestaurantDataMapperTest {
     }
 
     @Test
-    fun dtoToDomain_WithRestaurantDto_ReturnsMappedRestaurant(){
+    fun dtoToDomain_WithRestaurantDto_ReturnMappedRestaurant(){
         // arrange
         // act
         val restaurant: Restaurant = SUT.dtoToDomain(restaurantDto1)
@@ -68,7 +68,7 @@ class RestaurantDataMapperTest {
     }
 
     @Test
-    fun dtoToDomainList_WithRestaurantDtoList_ReturnsMappedRestaurantList(){
+    fun dtoToDomainList_WithRestaurantDtoList_ReturnMappedRestaurantList(){
         // arrange
         // act
         val restaurants: List<Restaurant> = SUT.dtoToDomainList(restaurantDtos)

@@ -27,7 +27,7 @@ class GetMealsByRestaurantIdUseCaseTest {
     }
 
     @Test
-    fun execute_WhenRestaurantIdFound_ReturnsThisRestaurantMeals(){
+    fun execute_WhenRestaurantIdFound_ReturnThisRestaurantMeals(){
         // arrange
         Mockito.`when`(mealRepository.getMealsByRestaurantId(RESTAURANT2.id)).thenReturn(Observable.just(MEALS_OF_TWO))
         // act
@@ -40,7 +40,7 @@ class GetMealsByRestaurantIdUseCaseTest {
     }
 
     @Test
-    fun execute_WhenRestaurantIdNotFound_ReturnsEmptyList(){
+    fun execute_WhenRestaurantIdNotFound_ReturnEmptyList(){
         // arrange
         val notFoundId = "id1"
         val MEALS_EMPTY = mutableListOf<Meal>()

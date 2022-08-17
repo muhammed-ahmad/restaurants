@@ -18,11 +18,11 @@ object DataTestData {
 
     // MealData
     fun createMealData1() = MealData("id1", "name1", "details1", "https",
-        "type", "updated_at", "active", "favorite")
+        "id2", "updated_at", "active", "favorite")
     fun createMealData2() = MealData("id2", "name2", "details2", "https",
-        "type", "updated_at", "active", "favorite")
+        "id1", "updated_at", "active", "favorite")
     fun createMealData3() = MealData("id3", "name3", "details3", "https",
-        "type", "updated_at", "active", "favorite")
+        "id2", "updated_at", "active", "favorite")
 
     fun createMealDatas(): MutableList<MealData> = mutableListOf(
         createMealData1(),

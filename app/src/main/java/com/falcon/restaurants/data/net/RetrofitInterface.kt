@@ -11,10 +11,10 @@ import retrofit2.http.Query
 interface RetrofitInterface {
 
     @GET("api/getRestaurants.php")
-    fun  getRestaurantDtos(@Query("maxUpdatedAt") maxUpdatedAt: String ): Single<List<RestaurantDto>>
+    fun  fetchRestaurantDtos(@Query("maxUpdatedAt") maxUpdatedAt: String ): Single<List<RestaurantDto>>
 
     @GET("api/getMeals.php")
-    fun getMealDtos(@Query("maxUpdatedAt") maxUpdatedAt: String): Single<List<MealDto>>
+    fun fetchMealDtos(@Query("maxUpdatedAt") maxUpdatedAt: String): Single<List<MealDto>>
 
     @FormUrlEncoded
     @POST("api/login.php")

@@ -34,7 +34,7 @@ class GetMealsByRestaurantIdUseCaseTest {
         val testObserver: TestObserver<List<Meal>> = SUT.execute(RESTAURANT2.id).test()
         // assert
         testObserver.assertComplete()
-        testObserver.assertValue { meals -> meals[0].restaurantId.equals("id2") }
+        testObserver.assertValue { meals -> meals[0].restaurantId.equals(RESTAURANT2.id) }
         testObserver.assertValue { meals -> meals.size == 2 }
         testObserver.assertValueCount(1)
     }

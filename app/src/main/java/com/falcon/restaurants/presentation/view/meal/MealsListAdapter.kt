@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.falcon.restaurants.databinding.RecyclerviewMealItemBinding
 import com.falcon.restaurants.presentation.view.common.ImageLoader
 import com.falcon.restaurants.data.net.Constants
+import com.falcon.restaurants.domain.model.Meal
 import com.falcon.restaurants.domain.util.Logger
-import com.falcon.restaurants.presentation.model.MealUiModel
 
 class MealsListAdapter (
     val context: Context,
@@ -18,7 +18,7 @@ class MealsListAdapter (
 
     val TAG: String = "MealsListAdapter"
 
-    var main_arrlst = mutableListOf<MealUiModel>()
+    var main_arrlst = mutableListOf<Meal>()
         set(value){
             field = value
             notifyDataSetChanged()
@@ -30,11 +30,11 @@ class MealsListAdapter (
 
         lateinit var mealId: String
 
-        fun bind(currentMealUiModel: MealUiModel) {
-            binding.nameTxt.text = currentMealUiModel.name
-            mealId = currentMealUiModel.id
-            Logger.log( TAG, "onBindViewHolder Image_url: " + currentMealUiModel.imageUrl)
-            imageLoader.loadImage(binding.mealImg, Constants.imagesMealsUrl + currentMealUiModel.imageUrl)
+        fun bind(currentMeal: Meal) {
+            binding.nameTxt.text = currentMeal.name
+            mealId = currentMeal.id
+            Logger.log( TAG, "onBindViewHolder Image_url: " + currentMeal.imageUrl)
+            imageLoader.loadImage(binding.mealImg, Constants.imagesMealsUrl + currentMeal.imageUrl)
         }
 
         init {
@@ -59,8 +59,8 @@ class MealsListAdapter (
         else return 0
     }
 
-    fun setList(mealModels: List<MealUiModel>?) {
-        main_arrlst = mealModels as MutableList<MealUiModel>
+    fun setList(meals: List<Meal>?) {
+        main_arrlst = meals as MutableList<Meal>
     }
 
 }

@@ -5,10 +5,8 @@ import com.falcon.restaurants.data.db.dao.MealDataDao
 import com.falcon.restaurants.data.db.model.MealData
 import com.falcon.restaurants.data.mapper.MealDataMapper
 import com.falcon.restaurants.data.net.RetrofitInterface
-import com.falcon.restaurants.data.net.model.MealDto
 import com.falcon.restaurants.domain.interactor.DomainTestData
 import com.falcon.restaurants.domain.model.Meal
-import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.observers.TestObserver

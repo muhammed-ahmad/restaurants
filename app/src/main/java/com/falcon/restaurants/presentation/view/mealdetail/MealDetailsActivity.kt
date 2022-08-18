@@ -8,8 +8,8 @@ import com.falcon.restaurants.presentation.view.common.BaseActivity
 import com.falcon.restaurants.presentation.view.common.ImageLoader
 import com.falcon.restaurants.presentation.view.meal.MealViewModel
 import com.falcon.restaurants.data.net.Constants
+import com.falcon.restaurants.domain.model.Meal
 import com.falcon.restaurants.domain.util.Logger
-import com.falcon.restaurants.presentation.model.MealUiModel
 import javax.inject.Inject
 
 class MealDetailsActivity : BaseActivity() {
@@ -48,11 +48,11 @@ class MealDetailsActivity : BaseActivity() {
         if(!mealId.isEmpty()) {
             mealViewModel.getMealById(mealId, object :MealViewModel.GetMealByIdListener {
 
-                override fun onSuccess(mealModel: MealUiModel) {
-                    if (mealModel != null){
-                        imageLoader.loadImage(binding.mealImg, Constants.imagesMealsUrl + mealModel.imageUrl)
-                        binding.nameTxt.setText(mealModel.name)
-                        binding.detailsTxt.setText(mealModel.details)
+                override fun onSuccess(meal: Meal) {
+                    if (meal != null){
+                        imageLoader.loadImage(binding.mealImg, Constants.imagesMealsUrl + meal.imageUrl)
+                        binding.nameTxt.setText(meal.name)
+                        binding.detailsTxt.setText(meal.details)
                     }
                 }
                 override fun onFailed(e: Throwable) {

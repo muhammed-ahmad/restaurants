@@ -22,7 +22,7 @@ class RestaurantRepositoryImpl @Inject constructor(
 
     override fun getRestaurants(): Observable<List<Restaurant>> =
         restaurantDataDao.getRestaurants().map {
-            restaurantModels -> restaurantDataMapper.dataToDomainList(restaurantModels)
+            restaurantDatas -> restaurantDataMapper.dataToDomainList(restaurantDatas)
         }
 
     override fun upsert(restaurant: Restaurant): Long = restaurantDataDao.upsert(

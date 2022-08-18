@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.falcon.restaurants.databinding.RecyclerviewRestaurantItemBinding
 import com.falcon.restaurants.presentation.view.common.ImageLoader
 import com.falcon.restaurants.data.net.Constants
-import com.falcon.restaurants.presentation.model.RestaurantUiModel
+import com.falcon.restaurants.domain.model.Restaurant
 
 class RestaurantsListAdapter (
     val context: Context,
@@ -17,7 +17,7 @@ class RestaurantsListAdapter (
 
     val TAG: String = "RestaurantsListAdapter" 
 
-    var main_arrlst = mutableListOf<RestaurantUiModel>()
+    var main_arrlst = mutableListOf<Restaurant>()
         set(value){
             field = value
             notifyDataSetChanged()
@@ -29,10 +29,10 @@ class RestaurantsListAdapter (
 
         lateinit var restaurantId: String
 
-        fun bind(currentRestaurantUiModel: RestaurantUiModel){
-            binding.nameTxt.text = currentRestaurantUiModel.name
-            restaurantId = currentRestaurantUiModel.id
-            imageLoader.loadImage(binding.restaurantImg, Constants.imagesCategoriesUrl + currentRestaurantUiModel.imageUrl)
+        fun bind(currentRestaurant: Restaurant){
+            binding.nameTxt.text = currentRestaurant.name
+            restaurantId = currentRestaurant.id
+            imageLoader.loadImage(binding.restaurantImg, Constants.imagesCategoriesUrl + currentRestaurant.imageUrl)
         }
 
         init {
@@ -57,8 +57,8 @@ class RestaurantsListAdapter (
         else return 0
     }
 
-    fun setList(restaurantModels: List<RestaurantUiModel>?) {
-        main_arrlst = restaurantModels as MutableList<RestaurantUiModel>
+    fun setList(restaurants: List<Restaurant>?) {
+        main_arrlst = restaurants as MutableList<Restaurant>
     }
 
 }

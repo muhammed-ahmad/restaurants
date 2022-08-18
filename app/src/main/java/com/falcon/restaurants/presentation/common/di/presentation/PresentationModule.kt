@@ -2,7 +2,6 @@ package com.falcon.restaurants.presentation.common.di.presentation
 import android.app.Application
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
-import com.falcon.models.presentation.mapper.RestaurantMapper
 import com.falcon.restaurants.data.mapper.MealDataMapper
 import com.falcon.restaurants.data.mapper.RestaurantDataMapper
 import com.falcon.restaurants.data.net.RetrofitInterface
@@ -18,7 +17,6 @@ import com.falcon.restaurants.domain.interactor.restaurant.FetchAndUpsertRestaur
 import com.falcon.restaurants.domain.interactor.restaurant.GetRestaurantsUseCase
 import com.falcon.restaurants.domain.repository.MealRepository
 import com.falcon.restaurants.domain.repository.RestaurantRepository
-import com.falcon.restaurants.presentation.mapper.MealMapper
 import com.falcon.restaurants.presentation.view.meal.MealViewModel
 import com.falcon.restaurants.presentation.view.meal.MealViewModelFactory
 import com.falcon.restaurants.presentation.view.restaurant.RestaurantViewModel
@@ -63,8 +61,7 @@ class PresentationModule {
     fun getRestaurantViewModel(fragmentActivity: AppCompatActivity,
                                application: Application,
                                fetchAndUpsertRestaurantsUseCase: FetchAndUpsertRestaurantsUseCase,
-                               getRestaurantsUseCase: GetRestaurantsUseCase,
-                               restaurantMapper: RestaurantMapper
+                               getRestaurantsUseCase: GetRestaurantsUseCase
                                ): RestaurantViewModel{
 
         return ViewModelProviders.of(
@@ -72,8 +69,8 @@ class PresentationModule {
                 RestaurantViewModelFactory(
                     application,
                     fetchAndUpsertRestaurantsUseCase,
-                    getRestaurantsUseCase,
-                    restaurantMapper)
+                    getRestaurantsUseCase
+                    )
         ).get(RestaurantViewModel::class.java)
     }
 
@@ -82,8 +79,7 @@ class PresentationModule {
                          application: Application,
                          fetchAndUpsertMealUseCase: FetchAndUpsertMealUseCase,
                          getMealsByRestaurantIdUseCase: GetMealsByRestaurantIdUseCase,
-                         getMealByIdUseCase: GetMealByIdUseCase,
-                         mealMapper: MealMapper
+                         getMealByIdUseCase: GetMealByIdUseCase
                          ): MealViewModel{
 
         return ViewModelProviders.of(
@@ -92,8 +88,8 @@ class PresentationModule {
                     application,
                     fetchAndUpsertMealUseCase,
                     getMealsByRestaurantIdUseCase,
-                    getMealByIdUseCase,
-                    mealMapper)
+                    getMealByIdUseCase
+                    )
         ).get(MealViewModel::class.java)
     }
 

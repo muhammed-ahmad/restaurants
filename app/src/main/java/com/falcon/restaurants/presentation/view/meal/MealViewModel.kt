@@ -7,9 +7,8 @@ import androidx.lifecycle.ViewModel
 import com.falcon.restaurants.domain.interactor.meal.FetchAndUpsertMealUseCase
 import com.falcon.restaurants.domain.interactor.meal.GetMealByIdUseCase
 import com.falcon.restaurants.domain.interactor.meal.GetMealsByRestaurantIdUseCase
+import com.falcon.restaurants.domain.model.Meal
 import com.falcon.restaurants.domain.util.Logger
-import com.falcon.restaurants.presentation.mapper.MealMapper
-import com.falcon.restaurants.presentation.model.MealUiModel
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -19,31 +18,29 @@ class MealViewModel (
     val fetchAndUpsertMealUseCase: FetchAndUpsertMealUseCase,
     val getMealsByRestaurantIdUseCase: GetMealsByRestaurantIdUseCase,
     val getMealByIdUseCase: GetMealByIdUseCase,
-    val mealMapper: MealMapper
 
     ): ViewModel() {
 
     val TAG: String = "MealViewModel"
-    lateinit var mealsMutableLiveData: MutableLiveData<List<MealUiModel>>
+    lateinit var mealsMutableLiveData: MutableLiveData<List<Meal>>
 
     interface GetMealByIdListener{
-        fun onSuccess(mealModel: MealUiModel)
+        fun onSuccess(meal: Meal)
         fun onFailed(throwable: Throwable)
     }
 
     fun fetchAndUpsert() : Completable = fetchAndUpsertMealUseCase.execute().subscribeOn(Schedulers.io())
 
     @SuppressLint("CheckResult")
-    fun getByRestaurantId(restaurantId: String) : LiveData<List<MealUiModel>> {
+    fun getByRestaurantId(restaurantId: String) : LiveData<List<Meal>> {
 
         if(!::mealsMutableLiveData.isInitialized) {
-               mealsMutableLiveData = MutableLiveData<List<MealUiModel>>()
+               mealsMutableLiveData = MutableLiveData<List<Meal>>()
                getMealsByRestaurantIdUseCase.execute(restaurantId)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe( { meals -> Logger.log( TAG, "onNext: " + meals.size)
-                                           val mealUiModels = mealMapper.toPresentationList(meals)
-                                           mealsMutableLiveData.setValue(mealUiModels) },
+                                           mealsMutableLiveData.setValue(meals) },
                                 { throwable -> Logger.log(TAG,  "onError: " + throwable.localizedMessage) },
                                 { Logger.log( TAG, "onComplete: ") },
                                 { disposable -> Logger.log( TAG, "onSubscribe: ") } )
@@ -57,7 +54,7 @@ class MealViewModel (
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    { meal -> getMealByIdListener.onSuccess(mealMapper.toPresentation(meal)) },
+                    { meal -> getMealByIdListener.onSuccess(meal) },
                     { throwable -> getMealByIdListener.onFailed(throwable) }
                 )
     }

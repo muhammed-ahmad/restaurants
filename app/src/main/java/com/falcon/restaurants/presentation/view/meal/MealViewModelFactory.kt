@@ -5,14 +5,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.falcon.restaurants.domain.interactor.meal.FetchAndUpsertMealUseCase
 import com.falcon.restaurants.domain.interactor.meal.GetMealByIdUseCase
 import com.falcon.restaurants.domain.interactor.meal.GetMealsByRestaurantIdUseCase
-import com.falcon.restaurants.presentation.mapper.MealMapper
 
 class MealViewModelFactory(
     var application: Application,
     var fetchAndUpsertMealUseCase: FetchAndUpsertMealUseCase,
     val getMealsByRestaurantIdUseCase: GetMealsByRestaurantIdUseCase,
-    val getMealByIdUseCase: GetMealByIdUseCase,
-    val mealMapper: MealMapper
+    val getMealByIdUseCase: GetMealByIdUseCase
 
 ) : ViewModelProvider.Factory{
      override fun <T : ViewModel?> create(modelClass: Class<T>): T{
@@ -20,8 +18,7 @@ class MealViewModelFactory(
             application,
             fetchAndUpsertMealUseCase,
             getMealsByRestaurantIdUseCase,
-            getMealByIdUseCase,
-            mealMapper
+            getMealByIdUseCase
         ) as T
     }
 }

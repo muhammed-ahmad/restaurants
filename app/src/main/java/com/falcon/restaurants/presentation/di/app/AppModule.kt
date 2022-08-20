@@ -1,4 +1,4 @@
-package com.falcon.restaurants.presentation.common.di.app
+package com.falcon.restaurants.presentation.di.app
 import android.app.Application
 import com.falcon.restaurants.data.net.RetrofitInterface
 import com.falcon.restaurants.data.db.RoomDB

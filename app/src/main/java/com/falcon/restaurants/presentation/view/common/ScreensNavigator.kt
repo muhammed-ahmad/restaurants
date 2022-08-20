@@ -1,6 +1,6 @@
 package com.falcon.restaurants.presentation.view.common
 import androidx.appcompat.app.AppCompatActivity
-import com.falcon.restaurants.presentation.common.di.activity.ActivityScope
+import com.falcon.restaurants.presentation.di.activity.ActivityScope
 import com.falcon.restaurants.presentation.view.restaurant.RestaurantsActivity
 import com.falcon.restaurants.presentation.view.meal.MealsActivity
 import com.falcon.restaurants.presentation.view.mealdetail.MealDetailsActivity

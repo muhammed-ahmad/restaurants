@@ -1,4 +1,4 @@
-package com.falcon.restaurants.presentation.common.di.app;
+package com.falcon.restaurants.presentation.di.app;
 import javax.inject.Scope;
 
 @Scope

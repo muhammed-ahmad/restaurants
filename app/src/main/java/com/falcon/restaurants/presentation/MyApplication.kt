@@ -1,7 +1,7 @@
-package com.falcon.restaurants.presentation.common
+package com.falcon.restaurants.presentation
 import androidx.multidex.MultiDexApplication
-import com.falcon.restaurants.presentation.common.di.app.AppModule
-import com.falcon.restaurants.presentation.common.di.app.DaggerAppComponent
+import com.falcon.restaurants.presentation.di.app.AppModule
+import com.falcon.restaurants.presentation.di.app.DaggerAppComponent
 
 class MyApplication : MultiDexApplication() {
 

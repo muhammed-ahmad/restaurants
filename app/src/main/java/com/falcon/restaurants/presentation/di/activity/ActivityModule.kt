@@ -1,4 +1,4 @@
-package com.falcon.restaurants.presentation.common.di.activity
+package com.falcon.restaurants.presentation.di.activity
 import android.content.Context
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity

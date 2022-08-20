@@ -1,4 +1,4 @@
-package com.falcon.restaurants.presentation.common.di.presentation
+package com.falcon.restaurants.presentation.di.presentation
 import com.falcon.restaurants.presentation.view.restaurant.RestaurantsActivity
 import com.falcon.restaurants.presentation.view.meal.MealsActivity
 import com.falcon.restaurants.presentation.view.mealdetail.MealDetailsActivity

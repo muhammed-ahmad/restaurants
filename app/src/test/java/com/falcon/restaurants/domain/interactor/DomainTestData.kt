@@ -6,12 +6,12 @@ import com.falcon.restaurants.domain.model.Restaurant
 object DomainTestData {
 
     // Restaurants
-    fun createRestaurant2() = Restaurant("id2", "0", "name2","image_url", "active", "updated_at")
+    fun createRestaurant1() = Restaurant("id1", "0", "name1","image_url", "1", "updated_at")
+    fun createRestaurant2() = Restaurant("id2", "0", "name2","image_url", "1", "updated_at")
+    fun createRestaurant3() = Restaurant("id3", "0", "name3","image_url", "1", "updated_at")
 
     fun createRestaurants(): MutableList<Restaurant> = mutableListOf(
-        Restaurant("id1", "0", "name1","image_url", "active", "updated_at"),
-        createRestaurant2(),
-        Restaurant("id3", "0", "name3","image_url", "active", "updated_at")
+        createRestaurant1(), createRestaurant2(), createRestaurant3()
     )
 
     // Meals
@@ -23,8 +23,6 @@ object DomainTestData {
         "updated_at", "active", "favorite")
 
     fun createMeals(): MutableList<Meal> = mutableListOf(
-        createMeal1(),
-        createMeal2(),
-        createMeal3()
+        createMeal1(), createMeal2(), createMeal3()
     )
 }

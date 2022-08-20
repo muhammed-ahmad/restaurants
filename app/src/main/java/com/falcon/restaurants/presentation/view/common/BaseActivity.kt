@@ -1,8 +1,8 @@
 package com.falcon.restaurants.presentation.view.common
 import androidx.appcompat.app.AppCompatActivity
-import com.falcon.restaurants.presentation.common.MyApplication
-import com.falcon.restaurants.presentation.common.di.activity.ActivityModule
-import com.falcon.restaurants.presentation.common.di.presentation.PresentationModule
+import com.falcon.restaurants.presentation.MyApplication
+import com.falcon.restaurants.presentation.di.activity.ActivityModule
+import com.falcon.restaurants.presentation.di.presentation.PresentationModule
 
 open class BaseActivity : AppCompatActivity() {
 

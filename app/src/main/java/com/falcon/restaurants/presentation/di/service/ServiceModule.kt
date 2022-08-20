@@ -1,4 +1,4 @@
-package com.falcon.restaurants.presentation.common.di.service
+package com.falcon.restaurants.presentation.di.service
 import android.app.Service
 import android.content.Context
 import dagger.Module

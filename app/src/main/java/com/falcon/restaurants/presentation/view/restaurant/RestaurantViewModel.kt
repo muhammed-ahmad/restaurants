@@ -21,11 +21,11 @@ class RestaurantViewModel(
     ) : ViewModel() {
 
     val TAG: String = "RestaurantViewModel"
-    lateinit var restaurantsMutableLiveData: MutableLiveData<List<Restaurant>>
 
 
     fun fetchAndUpsert(): Completable = fetchAndUpsertRestaurantsUseCase.execute().subscribeOn(Schedulers.io())
 
+    lateinit var restaurantsMutableLiveData: MutableLiveData<List<Restaurant>>
     @SuppressLint("CheckResult")
     fun getRestaurants(): LiveData<List<Restaurant>> {
 
@@ -33,7 +33,6 @@ class RestaurantViewModel(
             restaurantsMutableLiveData = MutableLiveData<List<Restaurant>>()
 
             getRestaurantsUseCase.execute()
-                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe( { restaurants -> Logger.log( TAG, "onNext: ")
                               restaurantsMutableLiveData.setValue(restaurants) },

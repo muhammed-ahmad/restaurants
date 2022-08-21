@@ -22,7 +22,6 @@ class MealViewModel (
     ): ViewModel() {
 
     val TAG: String = "MealViewModel"
-    lateinit var mealsMutableLiveData: MutableLiveData<List<Meal>>
 
     interface GetMealByIdListener{
         fun onSuccess(meal: Meal)
@@ -31,13 +30,13 @@ class MealViewModel (
 
     fun fetchAndUpsert() : Completable = fetchAndUpsertMealUseCase.execute().subscribeOn(Schedulers.io())
 
+    lateinit var mealsMutableLiveData: MutableLiveData<List<Meal>>
     @SuppressLint("CheckResult")
-    fun getByRestaurantId(restaurantId: String) : LiveData<List<Meal>> {
+    fun getMealsByRestaurantId(restaurantId: String) : LiveData<List<Meal>> {
 
         if(!::mealsMutableLiveData.isInitialized) {
                mealsMutableLiveData = MutableLiveData<List<Meal>>()
                getMealsByRestaurantIdUseCase.execute(restaurantId)
-                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe( { meals -> Logger.log( TAG, "onNext: " + meals.size)
                                            mealsMutableLiveData.setValue(meals) },
@@ -51,12 +50,11 @@ class MealViewModel (
    @SuppressLint("CheckResult")
    fun getMealById(mealId: String, getMealByIdListener: GetMealByIdListener) {
        getMealByIdUseCase.execute(mealId)
-                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     { meal -> getMealByIdListener.onSuccess(meal) },
                     { throwable -> getMealByIdListener.onFailed(throwable) }
                 )
-    }
+   }
 
 }

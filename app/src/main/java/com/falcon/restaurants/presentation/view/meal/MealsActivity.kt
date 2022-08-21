@@ -61,7 +61,7 @@ class MealsActivity : BaseActivity() {
     }
 
     fun setAdapterList() {
-        mealViewModel.getByRestaurantId(restaurantId).observe(this, { meals ->
+        mealViewModel.getMealsByRestaurantId(restaurantId).observe(this, { meals ->
             adapter.setList(meals)
         })
     }

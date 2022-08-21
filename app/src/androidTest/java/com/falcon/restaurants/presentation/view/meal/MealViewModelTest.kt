@@ -8,6 +8,7 @@ import com.falcon.restaurants.domain.interactor.meal.GetMealByIdUseCase
 import com.falcon.restaurants.domain.interactor.meal.GetMealsByRestaurantIdUseCase
 import com.falcon.restaurants.domain.model.Meal
 import com.falcon.restaurants.presentation.PresentationAndroidTestData
+import com.falcon.restaurants.presentation.RxImmediateSchedulerRule
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.Single
@@ -43,15 +44,18 @@ class MealViewModelTest  {
 
     val meals = PresentationAndroidTestData.createMeals()
 
-    @Before
-    fun setUp() {
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler { schedulerCallable: Callable<Scheduler?>? -> Schedulers.trampoline() }
-        SUT = MealViewModel(application, fetchAndUpsertMealUseCase, getMealsByRestaurantIdUseCase, getMealByIdUseCase)
-    }
+    @Rule
+    @JvmField
+    var testSchedulerRule = RxImmediateSchedulerRule()
 
     @Rule
     @JvmField
     val instantExecutorRule = InstantTaskExecutorRule()
+
+    @Before
+    fun setUp() {
+        SUT = MealViewModel(application, fetchAndUpsertMealUseCase, getMealsByRestaurantIdUseCase, getMealByIdUseCase)
+    }
 
     @Test
     fun getMealsByRestaurantId_WhenNonEmptyData_ReturnLiveDataOfMealsList(){

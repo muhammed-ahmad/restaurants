@@ -33,6 +33,7 @@ class RestaurantViewModel(
             restaurantsMutableLiveData = MutableLiveData<List<Restaurant>>()
 
             getRestaurantsUseCase.execute()
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe( { restaurants -> Logger.log( TAG, "onNext: ")
                               restaurantsMutableLiveData.setValue(restaurants) },

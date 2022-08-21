@@ -7,13 +7,10 @@ import com.falcon.restaurants.domain.interactor.restaurant.FetchAndUpsertRestaur
 import com.falcon.restaurants.domain.interactor.restaurant.GetRestaurantsUseCase
 import com.falcon.restaurants.domain.model.Restaurant
 import com.falcon.restaurants.presentation.PresentationAndroidTestData
+import com.falcon.restaurants.presentation.RxImmediateSchedulerRule
 import io.reactivex.Observable
-import io.reactivex.Scheduler
-import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.schedulers.Schedulers
 import junit.framework.Assert.assertEquals
 import org.junit.Before
-import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,7 +21,6 @@ import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
 import org.mockito.kotlin.never
-import java.util.concurrent.Callable
 
 
 @RunWith(MockitoJUnitRunner::class)
@@ -40,15 +36,18 @@ class RestaurantViewModelTest {
 
     val restaurants = PresentationAndroidTestData.createRestaurants()
 
-    @Before
-    fun setUp() {
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler { schedulerCallable: Callable<Scheduler?>? -> Schedulers.trampoline() }
-        SUT = RestaurantViewModel(application, fetchAndUpsertRestaurantsUseCase, getRestaurantsUseCase)
-    }
+    @Rule
+    @JvmField
+    var testSchedulerRule = RxImmediateSchedulerRule()
 
     @Rule
     @JvmField
     val instantExecutorRule = InstantTaskExecutorRule()
+
+    @Before
+    fun setUp() {
+        SUT = RestaurantViewModel(application, fetchAndUpsertRestaurantsUseCase, getRestaurantsUseCase)
+    }
 
     @Test
     fun getRestaurants_WhenNonEmptyData_ReturnLiveDataOfRestaurantsList(){

@@ -37,6 +37,7 @@ class MealViewModel (
         if(!::mealsMutableLiveData.isInitialized) {
                mealsMutableLiveData = MutableLiveData<List<Meal>>()
                getMealsByRestaurantIdUseCase.execute(restaurantId)
+                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe( { meals -> Logger.log( TAG, "onNext: " + meals.size)
                                            mealsMutableLiveData.setValue(meals) },
@@ -50,6 +51,7 @@ class MealViewModel (
    @SuppressLint("CheckResult")
    fun getMealById(mealId: String, getMealByIdListener: GetMealByIdListener) {
        getMealByIdUseCase.execute(mealId)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     { meal -> getMealByIdListener.onSuccess(meal) },

@@ -1,5 +1,6 @@
 package com.falcon.restaurants.presentation.view.meal
 
+
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
@@ -7,14 +8,11 @@ import com.falcon.restaurants.domain.interactor.meal.FetchAndUpsertMealUseCase
 import com.falcon.restaurants.domain.interactor.meal.GetMealByIdUseCase
 import com.falcon.restaurants.domain.interactor.meal.GetMealsByRestaurantIdUseCase
 import com.falcon.restaurants.domain.model.Meal
-import com.falcon.restaurants.presentation.PresentationAndroidTestData
+import com.falcon.restaurants.presentation.PresentationTestData
 import com.falcon.restaurants.presentation.RxImmediateSchedulerRule
 import io.reactivex.Observable
-import io.reactivex.Scheduler
 import io.reactivex.Single
-import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.schedulers.Schedulers
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -26,23 +24,29 @@ import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
 import org.mockito.kotlin.never
-import java.util.concurrent.Callable
 
 @RunWith(MockitoJUnitRunner::class)
 class MealViewModelTest  {
 
     lateinit var SUT: MealViewModel
-    @Mock lateinit var application: Application
-    @Mock lateinit var fetchAndUpsertMealUseCase: FetchAndUpsertMealUseCase
-    @Mock lateinit var getMealsByRestaurantIdUseCase: GetMealsByRestaurantIdUseCase
-    @Mock lateinit var getMealByIdUseCase: GetMealByIdUseCase
+    @Mock
+    lateinit var application: Application
+    @Mock
+    lateinit var fetchAndUpsertMealUseCase: FetchAndUpsertMealUseCase
+    @Mock
+    lateinit var getMealsByRestaurantIdUseCase: GetMealsByRestaurantIdUseCase
+    @Mock
+    lateinit var getMealByIdUseCase: GetMealByIdUseCase
 
-    @Mock lateinit var lifecycleObserver: Observer<List<Meal>>
-    @Captor lateinit var captor: ArgumentCaptor<List<Meal>>
+    @Mock
+    lateinit var lifecycleObserver: Observer<List<Meal>>
+    @Captor
+    lateinit var captor: ArgumentCaptor<List<Meal>>
 
-    @Mock lateinit var getMealByIdListener: MealViewModel.GetMealByIdListener
+    @Mock
+    lateinit var getMealByIdListener: MealViewModel.GetMealByIdListener
 
-    val meals = PresentationAndroidTestData.createMeals()
+    val meals = PresentationTestData.createMeals()
 
     @Rule
     @JvmField
@@ -61,7 +65,8 @@ class MealViewModelTest  {
     fun getMealsByRestaurantId_WhenNonEmptyData_ReturnLiveDataOfMealsList(){
         // arrange
         val restaurantId = "id2"
-        Mockito.`when`(getMealsByRestaurantIdUseCase.execute(restaurantId)).thenReturn(Observable.just(meals))
+        Mockito.`when`(getMealsByRestaurantIdUseCase.execute(restaurantId)).thenReturn(
+            Observable.just(meals))
         // act
         SUT.getMealsByRestaurantId(restaurantId).observeForever(lifecycleObserver)
         // assert
@@ -75,7 +80,8 @@ class MealViewModelTest  {
     fun getMealsByRestaurantId_WhenEmptyData_ThenLiveDataNotObservedOfEmptyMealsList(){
         // arrange
         val restaurantId = ""
-        Mockito.`when`(getMealsByRestaurantIdUseCase.execute(restaurantId)).thenReturn(Observable.empty())
+        Mockito.`when`(getMealsByRestaurantIdUseCase.execute(restaurantId)).thenReturn(
+            Observable.empty())
         // act
         SUT.getMealsByRestaurantId(restaurantId).observeForever(lifecycleObserver)
         // assert
@@ -86,7 +92,7 @@ class MealViewModelTest  {
     fun getMealById_WhenSuccess_ThenCallGetMealByIdListenerOnSuccess(){
         // arrange
         val mealId = ""
-        val meal1 = PresentationAndroidTestData.createMeal1()
+        val meal1 = PresentationTestData.createMeal1()
         Mockito.`when`(getMealByIdUseCase.execute(mealId)).thenReturn(Single.just(meal1))
         // act
         SUT.getMealById(mealId, getMealByIdListener)

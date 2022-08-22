@@ -3,7 +3,7 @@ package com.falcon.restaurants.presentation
 import com.falcon.restaurants.domain.model.Meal
 import com.falcon.restaurants.domain.model.Restaurant
 
-object PresentationAndroidTestData {
+object PresentationTestData {
 
     // Restaurants
     fun createRestaurant1() = Restaurant("id1", "0", "name1","image_url", "1", "updated_at")

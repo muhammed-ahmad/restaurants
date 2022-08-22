@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import com.falcon.restaurants.domain.interactor.restaurant.FetchAndUpsertRestaurantsUseCase
 import com.falcon.restaurants.domain.interactor.restaurant.GetRestaurantsUseCase
 import com.falcon.restaurants.domain.model.Restaurant
-import com.falcon.restaurants.presentation.PresentationAndroidTestData
+import com.falcon.restaurants.presentation.PresentationTestData
 import com.falcon.restaurants.presentation.RxImmediateSchedulerRule
 import io.reactivex.Observable
 import junit.framework.Assert.assertEquals
@@ -34,7 +34,7 @@ class RestaurantViewModelTest {
     @Mock lateinit var lifecycleObserver: Observer<List<Restaurant>>
     @Captor lateinit var captor: ArgumentCaptor<List<Restaurant>>
 
-    val restaurants = PresentationAndroidTestData.createRestaurants()
+    val restaurants = PresentationTestData.createRestaurants()
 
     @Rule
     @JvmField

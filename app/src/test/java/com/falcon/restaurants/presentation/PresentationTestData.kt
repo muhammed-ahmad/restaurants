@@ -15,12 +15,9 @@ object PresentationTestData {
     )
 
     // Meals
-    fun createMeal1() = Meal("id1", "name1", "detail1", "image_url", "id2",
-        "updated_at", "active", "favorite")
-    fun createMeal2() = Meal("id2", "name2", "detail2", "image_url", "id1",
-        "updated_at", "active", "favorite")
-    fun createMeal3() = Meal("id3", "name3", "detail3", "image_url", "id2",
-        "updated_at", "active", "favorite")
+    fun createMeal1() = Meal("id1", "name1", "detail1", "image_url", "id2", "updated_at", "active", "favorite")
+    fun createMeal2() = Meal("id2", "name2", "detail2", "image_url", "id1", "updated_at", "active", "favorite")
+    fun createMeal3() = Meal("id3", "name3", "detail3", "image_url", "id2", "updated_at", "active", "favorite")
 
     fun createMeals(): MutableList<Meal> = mutableListOf(
         createMeal1(), createMeal2(), createMeal3()

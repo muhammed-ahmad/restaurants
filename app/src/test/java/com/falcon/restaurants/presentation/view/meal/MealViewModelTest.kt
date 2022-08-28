@@ -29,22 +29,15 @@ import org.mockito.kotlin.never
 class MealViewModelTest  {
 
     lateinit var SUT: MealViewModel
-    @Mock
-    lateinit var application: Application
-    @Mock
-    lateinit var fetchAndUpsertMealUseCase: FetchAndUpsertMealUseCase
-    @Mock
-    lateinit var getMealsByRestaurantIdUseCase: GetMealsByRestaurantIdUseCase
-    @Mock
-    lateinit var getMealByIdUseCase: GetMealByIdUseCase
+    @Mock lateinit var application: Application
+    @Mock lateinit var fetchAndUpsertMealUseCase: FetchAndUpsertMealUseCase
+    @Mock lateinit var getMealsByRestaurantIdUseCase: GetMealsByRestaurantIdUseCase
+    @Mock lateinit var getMealByIdUseCase: GetMealByIdUseCase
 
-    @Mock
-    lateinit var lifecycleObserver: Observer<List<Meal>>
-    @Captor
-    lateinit var captor: ArgumentCaptor<List<Meal>>
+    @Mock lateinit var lifecycleObserver: Observer<List<Meal>>
+    @Captor lateinit var captor: ArgumentCaptor<List<Meal>>
 
-    @Mock
-    lateinit var getMealByIdListener: MealViewModel.GetMealByIdListener
+    @Mock lateinit var getMealByIdListener: MealViewModel.GetMealByIdListener
 
     val meals = PresentationTestData.createMeals()
 
@@ -65,8 +58,7 @@ class MealViewModelTest  {
     fun getMealsByRestaurantId_WhenNonEmptyData_ReturnLiveDataOfMealsList(){
         // arrange
         val restaurantId = "id2"
-        Mockito.`when`(getMealsByRestaurantIdUseCase.execute(restaurantId)).thenReturn(
-            Observable.just(meals))
+        Mockito.`when`(getMealsByRestaurantIdUseCase.execute(restaurantId)).thenReturn(Observable.just(meals))
         // act
         SUT.getMealsByRestaurantId(restaurantId).observeForever(lifecycleObserver)
         // assert
@@ -80,8 +72,7 @@ class MealViewModelTest  {
     fun getMealsByRestaurantId_WhenEmptyData_ThenLiveDataNotObservedOfEmptyMealsList(){
         // arrange
         val restaurantId = ""
-        Mockito.`when`(getMealsByRestaurantIdUseCase.execute(restaurantId)).thenReturn(
-            Observable.empty())
+        Mockito.`when`(getMealsByRestaurantIdUseCase.execute(restaurantId)).thenReturn(Observable.empty())
         // act
         SUT.getMealsByRestaurantId(restaurantId).observeForever(lifecycleObserver)
         // assert
@@ -96,7 +87,7 @@ class MealViewModelTest  {
         Mockito.`when`(getMealByIdUseCase.execute(mealId)).thenReturn(Single.just(meal1))
         // act
         SUT.getMealById(mealId, getMealByIdListener)
-        // success
+        // assert
         Mockito.verify(getMealByIdListener).onSuccess(any())
         Mockito.verify(getMealByIdListener, never()).onFailed(any())
     }

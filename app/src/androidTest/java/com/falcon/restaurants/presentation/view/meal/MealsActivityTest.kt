@@ -46,7 +46,6 @@ class MealsActivityTest {
             .putExtra(MealsActivity.RESTAURANT_ID, "1")
         scenario = launch(intent)
 
-
         Espresso.onView(ViewMatchers.withId(R.id.recyclerview))
             .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(1))
             .check(

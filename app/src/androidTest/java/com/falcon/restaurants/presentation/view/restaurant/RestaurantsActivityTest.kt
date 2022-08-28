@@ -8,7 +8,6 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -30,7 +29,7 @@ class RestaurantsActivityTest {
 
     @Test
     fun hasItemWithText() {
-        onView(ViewMatchers.withId(R.id.recyclerview))
+        onView(withId(R.id.recyclerview))
             .perform(
                 RecyclerViewActions.scrollTo<RecyclerView.ViewHolder>(
                     hasDescendant(withText("Abo Foda Fishes"))
@@ -40,7 +39,7 @@ class RestaurantsActivityTest {
 
     @Test(expected = PerformException::class)
     fun hasNotItemWithText() {
-        onView(ViewMatchers.withId(R.id.recyclerview))
+        onView(withId(R.id.recyclerview))
             .perform(
                 RecyclerViewActions.scrollTo<RecyclerView.ViewHolder>(
                     hasDescendant(withText(""))

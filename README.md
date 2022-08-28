@@ -1,50 +1,36 @@
 # Restaurants
-Restaurants app displays a list of restaurants and meals
-- it uses a backend api to get data and cache it locally using room.
-- each restart it connect to the backend and gets what was updated recently.
+Restaurants app written in kotlin, displays a list of restaurants and meals
 
-<br />
+# Features:
+- connects to restaurants API to fetch data using retrofit and cache it locally using room.
+- each restart it connect to the API and gets what was updated recently.
+- displays a list of restaurants, when click on specific restaurant it display its meals 
 
-# Screenshots:
-
-<br />
-<p float="left">
-  <img src="screenshots/restaurants.png" width="45%" />
-  <img src="screenshots/meals.png" width="45%" /> 
-</p>
-<br />
-<p float="left">
-  <img src="screenshots/meal-details.png" width="45%" /> 
-</p>
 <br />
 
 # Tech Stack
+
+- Kotlin
 
 - Architecture
     - Clean Architecture
     - MVVM Architecture
     - Repository Pattern
 
-- Kotlin
+- Dependency Injection
+    - Dagger 2
 
 - Reactive Programming
     - RxJava
     - LiveData
-
-- Other
-    - View Binding
-    - Gson
-    - Glide
-    
+ 
 - Room
-
-- Dependency Injection
-    - dagger 2
     
 - Testing
-    - Unit Tests
-    - Instrumentation Tests
+    - Unit Tests (local and Instrumentation Tests)
     - Mockito
+    - MockWebServer
+    - Ui Testing (Espresso)
     
 - Networking
     - Retrofit
@@ -52,8 +38,21 @@ Restaurants app displays a list of restaurants and meals
 
 - SOLID
 
+- Other
+    - View Binding
+    - Gson
+    - Glide
+
 <br />
 
+# Screenshots:
+
+<p float="left">
+  <img src="screenshots/restaurants.png" width="30%" />
+  <img src="screenshots/meals.png" width="30%" />
+  <img src="screenshots/meal-details.png" width="30%" /> 
+</p>
+<br />
 
 # License & Copyright
 Copyright (c) 2021 **Muhammad-2021**

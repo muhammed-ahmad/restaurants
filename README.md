@@ -1,14 +1,14 @@
-# Restaurants
+# Restaurants:
 Restaurants app written in kotlin, displays a list of restaurants and meals
 
 # Features:
 - connects to restaurants API to fetch data using retrofit and cache it locally using room.
 - each restart it connect to the API and gets what was updated recently.
-- displays a list of restaurants, when click on specific restaurant it display its meals 
+- displays a list of restaurants, and when click on specific restaurant it display its meals 
 
 <br />
 
-# Tech Stack
+# Tech Stack:
 
 - Kotlin
 
@@ -54,7 +54,7 @@ Restaurants app written in kotlin, displays a list of restaurants and meals
 </p>
 <br />
 
-# License & Copyright
+# License & Copyright:
 Copyright (c) 2021 **Muhammad-2021**
 
  [MIT License](LICENSE)

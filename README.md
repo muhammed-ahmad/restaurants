@@ -55,6 +55,6 @@ Restaurants app written in kotlin, displays a list of restaurants and meals
 <br />
 
 # License & Copyright:
-Copyright (c) 2021 **Muhammad-2021**
+Copyright (c) 2021 **Muhammad Ahmad**
 
  [MIT License](LICENSE)
